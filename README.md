@@ -1,1 +1,2 @@
-Circuit analysis Spring 2020 with Professor Darabi, copy at own risks...
+miscellaneous light-weight interesting small-scale side projects.   <br />
+I have removed all images. repo should load faster now.
