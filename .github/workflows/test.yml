@@ -26,4 +26,6 @@ jobs:
           echo "BETA_BRANCH=${{ steps.version.outputs.content }}" >> $GITHUB_ENV
       # i need to trim the ending newline
       - name: Verify Beta Branch
-        run: echo $BETA_BRANCH
+        run: |
+          echo "BETA_BRANCH=$(echo $BETA_BRANCH | tr -d '\n')" >> $GITHUB_ENV
+          echo $BETA_BRANCH
