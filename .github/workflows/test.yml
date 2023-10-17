@@ -1,7 +1,4 @@
-on:
-  pull_request:
-    branches: master
-    types: [labeled]
+on: workflow_dispatch
 
 permissions: read-all
 
