@@ -1,0 +1,31 @@
+on:
+  pull_request:
+    branches: master
+    types: [labeled]
+
+permissions: read-all
+
+jobs:
+  cp_beta:
+    name: cp_beta
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
+      - name: Checkout Flutter Beta
+        uses: actions/checkout@v4
+        with:
+          ref: beta
+          token: ${{ github.token }}
+      - name: Read Beta Candidate Name
+        id: version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./bin/internal/release-candidate-branch.version
+      - name: Echo Beta Branch
+        # for some reasons https://stackoverflow.com/questions/57968497 doesn't work
+        run: |
+          echo "${{ steps.version.outputs.content }}"
+          echo "BETA_BRANCH=${{ steps.version.outputs.content }}" >> $GITHUB_ENV
+      # i need to trim the ending newline
+      - name: Verify Beta Branch
+        run: echo $BETA_BRANCH
