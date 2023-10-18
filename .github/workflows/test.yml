@@ -33,3 +33,5 @@ jobs:
         run: |
           APPROVER=$(gh pr view --json reviews -q ".reviews[] | select(.state == \"APPROVED\") | .author.login" -R flutter/flutter 109005 --comments)
           echo $APPROVER
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
