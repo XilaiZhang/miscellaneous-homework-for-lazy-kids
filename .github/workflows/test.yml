@@ -36,3 +36,6 @@ jobs:
           echo $APPROVERS
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      - name: Verify Approver
+        run: |
+          echo $APPROVERS
