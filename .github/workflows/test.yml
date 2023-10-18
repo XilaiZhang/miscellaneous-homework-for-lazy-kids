@@ -57,7 +57,7 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
           git checkout -b ${BETA_BRANCH} --track origin/${BETA_BRANCH}
-          echo "head sha is ${git rev-parse flutter-3.16-candidate.0}"
+          echo "head sha is $(git rev-parse flutter-3.16-candidate.0)"
           git cherry-pick -n ${GITHUB_SHA}
           git reset origin/${BETA_BRANCH}
           git add README.md
