@@ -36,6 +36,11 @@ jobs:
           echo $APPROVERS
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      # echo "GITHUB_SHA=${{ github.event.pull_request.merge_commit_sha }}" >> $GITHUB_ENV
+      - name: Store Merged Sha
+        run: |
+          echo "${{ github.event.pull_request.merge_commit_sha }}"
+          echo "GITHUB_SHA='50684144e10fc5f2e9019ce5cfcfd378af47b7bd'" >> $GITHUB_ENV
       - name: Verify Approver
         run: |
           echo $APPROVERS
