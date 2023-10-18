@@ -1,6 +1,6 @@
 on: workflow_dispatch
 
-permissions: read-all
+permissions: write-all
 
 jobs:
   cp_beta:
