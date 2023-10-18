@@ -45,11 +45,15 @@ jobs:
           fetch-depth: 0
           ref: master
           token: ${{ github.token }}
-      - name: Cherry Pick to Beta
-        uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
-        with:
-          branch: ${{ env.BETA_BRANCH }}
-          # we can add a label here
-          reviewers: ${APPROVERS}
+      # TODO(xilaizhang): Add a step if auto cherry-pick fails, and hint author to resolve conflict.
+      - name: git
+        run: |
+          # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+          git --version
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git checkout -b ${BETA_BRANCH} --track origin/${BETA_BRANCH}
+          git cherry-pick ${GITHUB_SHA}
+          gh pr create --title "totally testing"
           title: "[flutter-release][beta-cherrypick]${{ github.event.pull_request.title }}"
           body: 'Cherry picking #{old_pull_request_id} onto beta release candidate branch. cc @${{ github.event.pull_request.user.login }}'
