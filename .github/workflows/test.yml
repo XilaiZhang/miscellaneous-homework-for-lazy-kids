@@ -29,3 +29,7 @@ jobs:
         run: |
           echo "BETA_BRANCH=$(echo $BETA_BRANCH | tr -d '\n')" >> $GITHUB_ENV
           echo $BETA_BRANCH
+      - name: Get Approver
+        run: |
+          echo 'APPROVER=$(gh pr view --json reviews -q ".reviews[] | select(.state == \"APPROVED\") | .author.login" -R flutter/flutter 109005 --comments)' >> $GITHUB_ENV
+          echo $APPROVER
