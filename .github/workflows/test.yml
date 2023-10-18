@@ -59,6 +59,4 @@ jobs:
           git config user.email "<>"
           git checkout -b ${BETA_BRANCH} --track origin/${BETA_BRANCH}
           git cherry-pick ${GITHUB_SHA}
-          gh pr create --title "totally testing"
-          title: "[flutter-release][beta-cherrypick]${{ github.event.pull_request.title }}"
-          body: 'Cherry picking #{old_pull_request_id} onto beta release candidate branch. cc @${{ github.event.pull_request.user.login }}'
+          gh pr create --title "totally testing" --body "cc@XilaiZhang"
