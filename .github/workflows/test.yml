@@ -39,3 +39,17 @@ jobs:
       - name: Verify Approver
         run: |
           echo $APPROVERS
+      - name: Checkout Flutter master
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: master
+          token: ${{ github.token }}
+      - name: Cherry Pick to Beta
+        uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
+        with:
+          branch: ${BETA_BRANCH}
+          # we can add a label here
+          reviewers: ${APPROVERS}
+          title: "[flutter-release][beta-cherrypick]${{ github.event.pull_request.title }}"
+          body: 'Cherry picking #{old_pull_request_id} onto beta release candidate branch. cc @${{ github.event.pull_request.user.login }}'
