@@ -61,6 +61,7 @@ jobs:
           git cherry-pick ${GITHUB_SHA}
           git reset origin/${BETA_BRANCH}
           git add README.md
+          git checkout .
           git push -u origin "${BETA_BRANCH}"
           gh pr create --title "totally testing" --body "cc@XilaiZhang"
         env:
