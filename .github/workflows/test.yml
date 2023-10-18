@@ -59,6 +59,7 @@ jobs:
           git config user.email "<>"
           git checkout -b ${BETA_BRANCH} --track origin/${BETA_BRANCH}
           git cherry-pick ${GITHUB_SHA}
+          git push -u origin "${BETA_BRANCH}"
           gh pr create --title "totally testing" --body "cc@XilaiZhang"
         env:
           GITHUB_TOKEN: ${{ github.token }}
