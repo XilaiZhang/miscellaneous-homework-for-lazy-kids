@@ -7,7 +7,6 @@ jobs:
     name: cp_beta
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744
       - name: Checkout Flutter Beta
         uses: actions/checkout@v4
         with:
@@ -40,7 +39,7 @@ jobs:
       - name: Store Merged Sha
         run: |
           echo "${{ github.event.pull_request.merge_commit_sha }}"
-          echo "GITHUB_SHA='41bf4015eed52493be8ef115e5886bf5b275070a'" >> $GITHUB_ENV
+          echo "GITHUB_SHA='42ecdc53d3347d71fb0aa2dbf1ac256c76b63de8'" >> $GITHUB_ENV
       - name: Verify Approver
         run: |
           echo $APPROVERS
