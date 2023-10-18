@@ -32,7 +32,7 @@ jobs:
       - name: Get Approver
         run: |
           APPROVERS=$(gh pr view --json reviews -q ".reviews[] | select(.state == \"APPROVED\") | .author.login" -R flutter/flutter 136658 --comments)
-          echo "APPROVERS=$(echo $APPROVERS | tr ' ' '\n')" >> $GITHUB_ENV
+          echo "APPROVERS=$(echo $APPROVERS | tr ' ' ',')" >> $GITHUB_ENV
           echo $APPROVERS
         env:
           GITHUB_TOKEN: ${{ github.token }}
