@@ -48,7 +48,7 @@ jobs:
       - name: Cherry Pick to Beta
         uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
         with:
-          branch: ${BETA_BRANCH}
+          branch: ${{ env.BETA_BRANCH }}
           # we can add a label here
           reviewers: ${APPROVERS}
           title: "[flutter-release][beta-cherrypick]${{ github.event.pull_request.title }}"
