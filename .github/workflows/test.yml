@@ -18,21 +18,22 @@ jobs:
         uses: juliangruber/read-file-action@v1
         with:
           path: ./bin/internal/release-candidate-branch.version
-      - name: Echo Beta Branch
-        # for some reasons https://stackoverflow.com/questions/57968497 doesn't work
+      # https://stackoverflow.com/questions/57968497
+      # Doesn't work with nektos/act, but works on real github workflows.
+      # Trim the ending newline from file content.
+      - name: Set Beta Branch
         run: |
-          echo "${{ steps.version.outputs.content }}"
           echo "BETA_BRANCH=${{ steps.version.outputs.content }}" >> $GITHUB_ENV
-      # i need to trim the ending newline
-      - name: Verify Beta Branch
-        run: |
           echo "BETA_BRANCH=$(echo $BETA_BRANCH | tr -d '\n')" >> $GITHUB_ENV
-          echo $BETA_BRANCH
+      # Use jq to get approvers. The requested_reviewer field in payload doesn't include approvers.
+      # See https://api.github.com/repos/flutter/flutter/pulls/136842 as an example.
       - name: Get Approver
+        # Replace whitespace with commas.
+        # TODO(xilaizhang):change this to actual pr number
         run: |
           RAW_APPROVERS=$(gh pr view --json reviews -q ".reviews[] | select(.state == \"APPROVED\") | .author.login" -R flutter/flutter 136658 --comments)
-          echo "APPROVERS=$(echo $RAW_APPROVERS | sed 's/ /,/g')" >> $GITHUB_ENV
-          echo $APPROVERS
+          APPROVERS=($RAW_APPROVERS)
+          echo "APPROVER=$(${APPROVERS[0]})" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ github.token }}
       # echo "GITHUB_SHA=${{ github.event.pull_request.merge_commit_sha }}" >> $GITHUB_ENV
@@ -40,28 +41,29 @@ jobs:
         run: |
           echo "${{ github.event.pull_request.merge_commit_sha }}"
           echo "MERGED_SHA=5ebdf55c9e5e1b16dde5ccb54376f47ae8fe1148" >> $GITHUB_ENV
-      - name: Verify Approver
+      - name: Print Context
         run: |
-          echo $APPROVERS
+          echo "Beta branch is ${BETA_BRANCH}"
+          echo "Approver is $($APPROVER)"
       # TODO: change repo to flutter/flutter later
-      - name: Checkout Flutter master
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: master
-          token: ${{ github.token }}
-      # TODO(xilaizhang): Add a step if auto cherry-pick fails, and hint author to resolve conflict.
-      - name: git
-        run: |
-          # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
-          git --version
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-          git checkout -b cp-${MERGED_SHA} --track origin/${BETA_BRANCH}
-          echo "head sha is $(git rev-parse cp-$MERGED_SHA)"
-          git cherry-pick -Xtheirs ${MERGED_SHA}
-          git status
-          git push -u origin cp-${MERGED_SHA}
-          gh pr create --title "github actions testing" --body "cc @XilaiZhang"
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+      # - name: Checkout Flutter master
+      #   uses: actions/checkout@v4
+      #   with:
+      #     fetch-depth: 0
+      #     ref: master
+      #     token: ${{ github.token }}
+      # # TODO(xilaizhang): Add a step if auto cherry-pick fails, and hint author to resolve conflict.
+      # - name: git
+      #   run: |
+      #     # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+      #     git --version
+      #     git config user.name "GitHub Actions Bot"
+      #     git config user.email "<>"
+      #     git checkout -b cp-${MERGED_SHA} --track origin/${BETA_BRANCH}
+      #     echo "head sha is $(git rev-parse cp-$MERGED_SHA)"
+      #     git cherry-pick -Xtheirs ${MERGED_SHA}
+      #     git status
+      #     git push -u origin cp-${MERGED_SHA}
+      #     gh pr create --title "github actions testing" --body "cc @XilaiZhang"
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
