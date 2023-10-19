@@ -62,6 +62,6 @@ jobs:
           git cherry-pick -Xtheirs ${MERGED_SHA}
           git status
           git push -u origin "${BETA_BRANCH}"
-          gh pr create --title "github actions testing" --body "cc@XilaiZhang"
+          gh pr create --title "github actions testing" --body "cc @XilaiZhang"
         env:
           GITHUB_TOKEN: ${{ github.token }}
