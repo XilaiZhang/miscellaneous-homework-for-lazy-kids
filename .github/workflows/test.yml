@@ -39,16 +39,16 @@ jobs:
       - name: Store Merged Sha
         run: |
           echo "${{ github.event.pull_request.merge_commit_sha }}"
-          echo "MERGED_SHA=747128ff7a04c2ae684e7db13a0fe356d220e793" >> $GITHUB_ENV
+          echo "MERGED_SHA=e85e2642427671b4a05571aecfccb002956c59a3" >> $GITHUB_ENV
       - name: Verify Approver
         run: |
           echo $APPROVERS
+      # TODO: change repo to flutter/flutter later
       - name: Checkout Flutter master
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: master
-          repository: flutter/flutter
           token: ${{ github.token }}
       # TODO(xilaizhang): Add a step if auto cherry-pick fails, and hint author to resolve conflict.
       - name: git
