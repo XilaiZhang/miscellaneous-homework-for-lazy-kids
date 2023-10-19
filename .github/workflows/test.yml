@@ -71,18 +71,31 @@ jobs:
           fetch-depth: 0
           ref: master
           token: ${{ github.token }}
-      # TODO(xilaizhang): Add a step if auto cherry-pick fails, and hint author to resolve conflict.
+      # note: you need a space between @ mentions and username.
       - name: git
         run: |
           # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
           git --version
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          git checkout -b cp-3 --track origin/${BETA_BRANCH}
-          echo "head sha is $(git rev-parse cp-3)"
+          git checkout -b cp-4 --track origin/${BETA_BRANCH}
+          echo "head sha is $(git rev-parse cp-4)"
+          git cherry-pick ${MERGED_SHA}
+          git status
+          git push -u origin cp-4
+          gh pr create --title "[flutter-release][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_TEMPLATE}"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+            # Force a cherry pick by accepting theirs if there is a merge conflict. Inform author.
+      - name: Force Cherrypick
+        if: ${{ failure() && steps.regular-cp.conclusion == 'failure' }}
+        run: |
+          git checkout master
+          git checkout -b cp-${MERGED_SHA}-force --track origin/${BETA_BRANCH}
+          echo "head sha is $(git rev-parse cp-$MERGED_SHA-force)"
           git cherry-pick -Xtheirs ${MERGED_SHA}
           git status
-          git push -u origin cp-3
-          gh pr create --title "[flutter-release][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_TEMPLATE}"
+          git push -u origin cp-${MERGED_SHA}-force
+          gh pr create --title "[force][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_WARNING}"
         env:
           GITHUB_TOKEN: ${{ github.token }}
