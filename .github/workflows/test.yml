@@ -45,7 +45,8 @@ jobs:
       - name: Print Context
         run: |
           echo "Beta branch is ${BETA_BRANCH}"
-          echo "Approver is $($APPROVER)"
+          echo "Approver is ${APPROVER}"
+          echo "Merged sha to be cherry picked is ${MERGED_SHA}"
       # TODO: change repo to flutter/flutter later
       # - name: Checkout Flutter master
       #   uses: actions/checkout@v4
