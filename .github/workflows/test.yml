@@ -39,7 +39,7 @@ jobs:
       - name: Store Merged Sha
         run: |
           echo "${{ github.event.pull_request.merge_commit_sha }}"
-          echo "GITHUB_SHA='54fa25543243e3bf31af6af0c1fef6adabc1d5c1'" >> $GITHUB_ENV
+          echo "GITHUB_SHA='747128ff7a04c2ae684e7db13a0fe356d220e793'" >> $GITHUB_ENV
       - name: Verify Approver
         run: |
           echo $APPROVERS
