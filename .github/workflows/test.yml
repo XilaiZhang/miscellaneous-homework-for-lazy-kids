@@ -40,7 +40,6 @@ jobs:
       # echo "GITHUB_SHA=${{ github.event.pull_request.merge_commit_sha }}" >> $GITHUB_ENV
       - name: Store Merged Sha
         run: |
-          echo "${{ github.event.pull_request.merge_commit_sha }}"
           echo "MERGED_SHA=5ebdf55c9e5e1b16dde5ccb54376f47ae8fe1148" >> $GITHUB_ENV
       - name: Create cp body template
         run : |
