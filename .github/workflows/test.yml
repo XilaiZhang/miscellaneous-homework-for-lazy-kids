@@ -44,10 +44,12 @@ jobs:
           echo "MERGED_SHA=5ebdf55c9e5e1b16dde5ccb54376f47ae8fe1148" >> $GITHUB_ENV
       - name: Create cp body template
         run : |
-          CP_TEMPLATE="What is this PR?\n"
-          CP_TEMPLATE+="This is a pull request that cherry picks ${MERGED_SHA} into the beta release branch.\n\n"
-          CP_TEMPLATE+="Why this PR?\n"
-          CP_TEMPLATE+="The label 'cp: merge-to-beta' was added to the initial PR.\n"
+          CP_TEMPLATE="**What is this PR?**<br>"
+          CP_TEMPLATE+="This is a pull request that cherry picks ${MERGED_SHA} into the beta release branch.<br><br>"
+          CP_TEMPLATE+="**Why this PR?**<br>"
+          CP_TEMPLATE+="The label 'cp: merge-to-beta' was added to the initial PR.<br><br>"
+          CP_TEMPLATE+="**Have Questions?**<br>"
+          CP_TEMPLATE+="Open an issue for team-release, or ping @flutter-release-eng<br>"
           echo "CP_TEMPLATE=${CP_TEMPLATE}" >> $GITHUB_ENV
       - name: Print Context
         run: |
