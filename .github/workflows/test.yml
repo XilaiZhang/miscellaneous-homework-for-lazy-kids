@@ -39,7 +39,7 @@ jobs:
       - name: Store Merged Sha
         run: |
           echo "${{ github.event.pull_request.merge_commit_sha }}"
-          echo "GITHUB_SHA='e85e2642427671b4a05571aecfccb002956c59a3'" >> $GITHUB_ENV
+          echo "GITHUB_SHA='54fa25543243e3bf31af6af0c1fef6adabc1d5c1'" >> $GITHUB_ENV
       - name: Verify Approver
         run: |
           echo $APPROVERS
@@ -48,6 +48,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: master
+          repository: flutter/flutter
           token: ${{ github.token }}
       # TODO(xilaizhang): Add a step if auto cherry-pick fails, and hint author to resolve conflict.
       - name: git
