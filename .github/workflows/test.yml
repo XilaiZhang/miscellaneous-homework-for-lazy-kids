@@ -20,10 +20,12 @@ jobs:
           path: ./bin/internal/release-candidate-branch.version
       # https://stackoverflow.com/questions/57968497
       # Doesn't work with nektos/act, but works on real github workflows.
-      # Trim the ending newline from file content.
       - name: Set Beta Branch
         run: |
-          echo "BETA_BRANCH=$(echo ${{ steps.version.outputs.content }} | tr -d '\n')" >> $GITHUB_ENV
+          echo "BETA_BRANCH=${{ steps.version.outputs.content }}" >> $GITHUB_ENV
+      - name: Trim Ending newline
+        run: |
+          echo "BETA_BRANCH=$(echo $BETA_BRANCH | tr -d '\n')" >> $GITHUB_ENV
       # Use jq to get approvers. The requested_reviewer field in payload doesn't include approvers.
       # See https://api.github.com/repos/flutter/flutter/pulls/136842 as an example.
       - name: Get Approver
