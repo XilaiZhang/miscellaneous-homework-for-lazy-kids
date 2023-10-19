@@ -44,10 +44,11 @@ jobs:
           echo "MERGED_SHA=5ebdf55c9e5e1b16dde5ccb54376f47ae8fe1148" >> $GITHUB_ENV
       - name: Create cp body template
         run : |
-          read -r -d '' CP_TEMPLATE << END
-          What is this PR?
-          This is a pull request that cherry picks ${MERGED_SHA} into the beta release branch.
-          END
+          CP_TEMPLATE="What is this PR?\n"
+          CP_TEMPLATE+="This is a pull request that cherry picks ${MERGED_SHA} into the beta release branch.\n\n"
+          CP_TEMPLATE+="Why this PR?\n"
+          CP_TEMPLATE+="The label 'cp: merge-to-beta' was added to the initial PR.\n"
+          echo "CP_TEMPLATE=${CP_TEMPLATE}" >> $GITHUB_ENV
       - name: Print Context
         run: |
           echo "Beta branch is ${BETA_BRANCH}"
