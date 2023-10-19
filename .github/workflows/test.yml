@@ -39,7 +39,7 @@ jobs:
       - name: Store Merged Sha
         run: |
           echo "${{ github.event.pull_request.merge_commit_sha }}"
-          echo "GITHUB_SHA='747128ff7a04c2ae684e7db13a0fe356d220e793'" >> $GITHUB_ENV
+          echo "MERGED_SHA='747128ff7a04c2ae684e7db13a0fe356d220e793'" >> $GITHUB_ENV
       - name: Verify Approver
         run: |
           echo $APPROVERS
@@ -59,15 +59,9 @@ jobs:
           git config user.email "<>"
           git checkout -b ${BETA_BRANCH} --track origin/${BETA_BRANCH}
           echo "head sha is $(git rev-parse flutter-3.16-candidate.0)"
-          git cherry-pick -Xtheirs -n ${GITHUB_SHA}
-          git reset origin/${BETA_BRANCH}
-          git add README.md
-          git add push_box/*
-          git add push_box/test.txt
-          git status
-          git checkout .
+          git cherry-pick -Xtheirs ${MERGED_SHA}
           git status
           git push -u origin "${BETA_BRANCH}"
-          gh pr create --title "totally testing" --body "cc@XilaiZhang"
+          gh pr create --title "github actions testing" --body "cc@XilaiZhang"
         env:
           GITHUB_TOKEN: ${{ github.token }}
