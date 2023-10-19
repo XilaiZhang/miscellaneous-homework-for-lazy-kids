@@ -74,6 +74,6 @@ jobs:
           git cherry-pick -Xtheirs ${MERGED_SHA}
           git status
           git push -u origin cp-${MERGED_SHA}-1
-          gh pr create --title "github actions testing" --reviewer ${APPROVER} --body ${CP_TEMPLATE}
+          gh pr create --title "github actions testing" --reviewer ${APPROVER} --body "${CP_TEMPLATE}"
         env:
           GITHUB_TOKEN: ${{ github.token }}
