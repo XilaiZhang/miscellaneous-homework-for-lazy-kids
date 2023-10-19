@@ -23,8 +23,7 @@ jobs:
       # Trim the ending newline from file content.
       - name: Set Beta Branch
         run: |
-          echo "BETA_BRANCH=${{ steps.version.outputs.content }}" >> $GITHUB_ENV
-          echo "BETA_BRANCH=$(echo $BETA_BRANCH | tr -d '\n')" >> $GITHUB_ENV
+          echo "BETA_BRANCH=$(echo ${{ steps.version.outputs.content }} | tr -d '\n')" >> $GITHUB_ENV
       # Use jq to get approvers. The requested_reviewer field in payload doesn't include approvers.
       # See https://api.github.com/repos/flutter/flutter/pulls/136842 as an example.
       - name: Get Approver
@@ -33,7 +32,7 @@ jobs:
         run: |
           RAW_APPROVERS=$(gh pr view --json reviews -q ".reviews[] | select(.state == \"APPROVED\") | .author.login" -R flutter/flutter 136658 --comments)
           APPROVERS=($RAW_APPROVERS)
-          echo "APPROVER=$(${APPROVERS[0]})" >> $GITHUB_ENV
+          echo "APPROVER=${APPROVERS[0]})" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ github.token }}
       # echo "GITHUB_SHA=${{ github.event.pull_request.merge_commit_sha }}" >> $GITHUB_ENV
