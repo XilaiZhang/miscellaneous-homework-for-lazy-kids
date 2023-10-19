@@ -42,30 +42,37 @@ jobs:
         run: |
           echo "${{ github.event.pull_request.merge_commit_sha }}"
           echo "MERGED_SHA=5ebdf55c9e5e1b16dde5ccb54376f47ae8fe1148" >> $GITHUB_ENV
+      - name: Create cp body template
+        run : |
+          read -r -d '' CP_TEMPLATE << END
+          What is this PR?
+          This is a pull request that cherry picks ${MERGED_SHA} into the beta release branch.
+          END
       - name: Print Context
         run: |
           echo "Beta branch is ${BETA_BRANCH}"
           echo "Approver is ${APPROVER}"
           echo "Merged sha to be cherry picked is ${MERGED_SHA}"
+          echo "CP pull request template is ${CP_TEMPLATE}"
       # TODO: change repo to flutter/flutter later
-      # - name: Checkout Flutter master
-      #   uses: actions/checkout@v4
-      #   with:
-      #     fetch-depth: 0
-      #     ref: master
-      #     token: ${{ github.token }}
-      # # TODO(xilaizhang): Add a step if auto cherry-pick fails, and hint author to resolve conflict.
-      # - name: git
-      #   run: |
-      #     # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
-      #     git --version
-      #     git config user.name "GitHub Actions Bot"
-      #     git config user.email "<>"
-      #     git checkout -b cp-${MERGED_SHA} --track origin/${BETA_BRANCH}
-      #     echo "head sha is $(git rev-parse cp-$MERGED_SHA)"
-      #     git cherry-pick -Xtheirs ${MERGED_SHA}
-      #     git status
-      #     git push -u origin cp-${MERGED_SHA}
-      #     gh pr create --title "github actions testing" --body "cc @XilaiZhang"
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
+      - name: Checkout Flutter master
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: master
+          token: ${{ github.token }}
+      # TODO(xilaizhang): Add a step if auto cherry-pick fails, and hint author to resolve conflict.
+      - name: git
+        run: |
+          # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+          git --version
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git checkout -b cp-${MERGED_SHA}-1 --track origin/${BETA_BRANCH}
+          echo "head sha is $(git rev-parse cp-$MERGED_SHA-1)"
+          git cherry-pick -Xtheirs ${MERGED_SHA-1}
+          git status
+          git push -u origin cp-${MERGED_SHA-1}
+          gh pr create --title "github actions testing" --reviewer ${APPROVER} --body ${CP_TEMPLATE}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
