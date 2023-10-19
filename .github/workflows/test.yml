@@ -69,11 +69,11 @@ jobs:
           git --version
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          git checkout -b cp-${MERGED_SHA}-1 --track origin/${BETA_BRANCH}
-          echo "head sha is $(git rev-parse cp-$MERGED_SHA-1)"
+          git checkout -b cp-2 --track origin/${BETA_BRANCH}
+          echo "head sha is $(git rev-parse cp-2)"
           git cherry-pick -Xtheirs ${MERGED_SHA}
           git status
-          git push -u origin cp-${MERGED_SHA}-1
+          git push -u origin cp-2
           gh pr create --title "github actions testing" --reviewer ${APPROVER} --body "${CP_TEMPLATE}"
         env:
           GITHUB_TOKEN: ${{ github.token }}
