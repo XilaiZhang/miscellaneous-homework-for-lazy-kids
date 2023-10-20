@@ -37,7 +37,7 @@ jobs:
           APPROVERS=($RAW_APPROVERS)
           echo "APPROVER=${APPROVERS[0]}" >> $GITHUB_ENV
         env:
-          PR_NUMBER: ${{ github.event.run_id }}
+          PR_NUMBER: ${{ github.event.repository.id }}
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
       # echo "GITHUB_SHA=${{ github.event.pull_request.merge_commit_sha }}" >> $GITHUB_ENV
