@@ -89,6 +89,7 @@ jobs:
       - name: Force Cherrypick
         if: ${{ failure() }}
         run: |
+          git cherry-pick --abort
           git checkout master
           git checkout -b cp-${MERGED_SHA}-force --track origin/${BETA_BRANCH}
           echo "head sha is $(git rev-parse cp-$MERGED_SHA-force)"
