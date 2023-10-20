@@ -31,6 +31,7 @@ jobs:
       - name: Get Approver
         # TODO(xilaizhang): use a fixed pr number 136658 for testing purposes.
         run: |
+          echo "${{ github.event.run_id }}"
           RAW_APPROVERS=$(gh pr view --json reviews -q ".reviews[] | select(.state == \"APPROVED\") | .author.login" -R flutter/flutter $PR_NUMBER --comments)
           APPROVERS=($RAW_APPROVERS)
           echo "APPROVER=${APPROVERS[0]}" >> $GITHUB_ENV
