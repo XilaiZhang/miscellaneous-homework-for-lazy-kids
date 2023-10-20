@@ -77,11 +77,11 @@ jobs:
           git --version
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          git checkout -b cp-4 --track origin/${BETA_BRANCH}
-          echo "head sha is $(git rev-parse cp-4)"
+          git checkout -b cp-5 --track origin/${BETA_BRANCH}
+          echo "head sha is $(git rev-parse cp-5)"
           git cherry-pick ${MERGED_SHA}
           git status
-          git push -u origin cp-4
+          git push -u origin cp-5
           gh pr create --title "[flutter-release][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_TEMPLATE}" --base origin/${BETA_BRANCH}
         env:
           GITHUB_TOKEN: ${{ github.token }}
