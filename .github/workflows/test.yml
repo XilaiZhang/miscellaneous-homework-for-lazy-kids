@@ -77,25 +77,25 @@ jobs:
           git --version
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          git checkout -b cp-5 --track origin/${BETA_BRANCH}
-          echo "head sha is $(git rev-parse cp-5)"
+          git checkout -b cp-6 --track origin/${BETA_BRANCH}
+          echo "head sha is $(git rev-parse cp-6)"
           git cherry-pick ${MERGED_SHA}
           git status
-          git push -u origin cp-5
+          git push -u origin cp-6
           gh pr create --title "[flutter-release][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_TEMPLATE}" --base origin/${BETA_BRANCH}
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      # Force a cherry pick by accepting ours ( the cp ) if there is a merge conflict. Inform author.
+      # Force a cherry pick by accepting theirs ( the cp ) if there is a merge conflict. Inform author.
       - name: Force Cherrypick
         if: ${{ failure() }}
         run: |
           git cherry-pick --abort
           git checkout master
-          git checkout -b cp-force-1 --track origin/${BETA_BRANCH}
-          echo "head sha is $(git rev-parse cp-force-1)"
-          git cherry-pick -Xours ${MERGED_SHA}
+          git checkout -b cp-force-2 --track origin/${BETA_BRANCH}
+          echo "head sha is $(git rev-parse cp-force-2)"
+          git cherry-pick -Xtheirs ${MERGED_SHA}
           git status
-          git push -u origin cp-force-1
+          git push -u origin cp-force-2
           gh pr create --title "[force][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_WARNING}" --base origin/${BETA_BRANCH}
         env:
           GITHUB_TOKEN: ${{ github.token }}
