@@ -39,10 +39,12 @@ jobs:
           PR_NUMBER: ${{ github.event.repository.id }}
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
-      # echo "GITHUB_SHA=${{ github.event.pull_request.merge_commit_sha }}" >> $GITHUB_ENV
+      # echo "MERGED_SHA=$PR_SHA" >> $GITHUB_ENV
       - name: Store Merged Sha
         run: |
           echo "MERGED_SHA=5ebdf55c9e5e1b16dde5ccb54376f47ae8fe1148" >> $GITHUB_ENV
+        env:
+          PR_SHA: ${{ github.event.pull_request.merge_commit_sha }}
       - name: Create cp body template
         run : |
           CP_TEMPLATE="**What is this PR?**<br>"
