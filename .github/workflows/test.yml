@@ -58,45 +58,48 @@ jobs:
           CP_WARNING="${CP_TEMPLATE}${CP_WARNING}"
           echo "CP_WARNING=${CP_WARNING}" >> $GITHUB_ENV
       - name: Print Context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "Beta branch is ${BETA_BRANCH}"
           echo "Approver is ${APPROVER}"
           echo "Merged sha to be cherry picked is ${MERGED_SHA}"
           echo "CP pull request template is ${CP_TEMPLATE}"
+          echo "Github context and event payload are $GITHUB_CONTEXT"
       # TODO: change repo to flutter/flutter later
-      - name: Checkout Flutter master
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: master
-          token: ${{ github.token }}
-      # note: you need a space between @ mentions and username.
-      - name: git
-        run: |
-          # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
-          git --version
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-          git checkout -b cp-6 --track origin/${BETA_BRANCH}
-          echo "head sha is $(git rev-parse cp-6)"
-          git cherry-pick ${MERGED_SHA}
-          git status
-          git push -u origin cp-6
-          gh pr create --title "[flutter-release][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_TEMPLATE}" --base ${BETA_BRANCH}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-      # Force a cherry pick by accepting theirs ( the cp ) if there is a merge conflict. Inform author.
-      # Use ${BRANCH} instead of origin/${BRANCH} for base ref.
-      - name: Force Cherrypick
-        if: ${{ failure() }}
-        run: |
-          git cherry-pick --abort
-          git checkout master
-          git checkout -b cp-force-4 --track origin/${BETA_BRANCH}
-          echo "head sha is $(git rev-parse cp-force-4)"
-          git cherry-pick -Xtheirs ${MERGED_SHA}
-          git status
-          git push -u origin cp-force-4
-          gh pr create --title "[force][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_WARNING}" --base ${BETA_BRANCH}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+      # - name: Checkout Flutter master
+      #   uses: actions/checkout@v4
+      #   with:
+      #     fetch-depth: 0
+      #     ref: master
+      #     token: ${{ github.token }}
+      # # note: you need a space between @ mentions and username.
+      # - name: git
+      #   run: |
+      #     # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+      #     git --version
+      #     git config user.name "GitHub Actions Bot"
+      #     git config user.email "<>"
+      #     git checkout -b cp-6 --track origin/${BETA_BRANCH}
+      #     echo "head sha is $(git rev-parse cp-6)"
+      #     git cherry-pick ${MERGED_SHA}
+      #     git status
+      #     git push -u origin cp-6
+      #     gh pr create --title "[flutter-release][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_TEMPLATE}" --base ${BETA_BRANCH}
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      # # Force a cherry pick by accepting theirs ( the cp ) if there is a merge conflict. Inform author.
+      # # Use ${BRANCH} instead of origin/${BRANCH} for base ref.
+      # - name: Force Cherrypick
+      #   if: ${{ failure() }}
+      #   run: |
+      #     git cherry-pick --abort
+      #     git checkout master
+      #     git checkout -b cp-force-4 --track origin/${BETA_BRANCH}
+      #     echo "head sha is $(git rev-parse cp-force-4)"
+      #     git cherry-pick -Xtheirs ${MERGED_SHA}
+      #     git status
+      #     git push -u origin cp-force-4
+      #     gh pr create --title "[force][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_WARNING}" --base ${BETA_BRANCH}
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
