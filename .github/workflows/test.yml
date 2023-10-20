@@ -82,10 +82,11 @@ jobs:
           git cherry-pick ${MERGED_SHA}
           git status
           git push -u origin cp-6
-          gh pr create --title "[flutter-release][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_TEMPLATE}" --base origin/${BETA_BRANCH}
+          gh pr create --title "[flutter-release][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_TEMPLATE}" --base ${BETA_BRANCH}
         env:
           GITHUB_TOKEN: ${{ github.token }}
       # Force a cherry pick by accepting theirs ( the cp ) if there is a merge conflict. Inform author.
+      # Use ${BRANCH} instead of origin/${BRANCH} for base ref.
       - name: Force Cherrypick
         if: ${{ failure() }}
         run: |
@@ -96,6 +97,6 @@ jobs:
           git cherry-pick -Xtheirs ${MERGED_SHA}
           git status
           git push -u origin cp-force-2
-          gh pr create --title "[force][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_WARNING}" --base origin/${BETA_BRANCH}
+          gh pr create --title "[force][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_WARNING}" --base ${BETA_BRANCH}
         env:
           GITHUB_TOKEN: ${{ github.token }}
