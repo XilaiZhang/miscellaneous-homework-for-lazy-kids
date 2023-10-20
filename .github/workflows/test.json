@@ -1,0 +1,14 @@
+{
+    "action": "labeled",
+    "label": {
+        "name": "cp: merge-to-beta"
+    },
+    "pull_request": {
+        "merged": true,
+        "merge_commit_sha": "2df7244f7472c4c5cc0206a0851bed0b484cd93d",
+        "title": "A-TITLE",
+        "user": {
+            "login": "A-USER"
+        }
+    }
+}
