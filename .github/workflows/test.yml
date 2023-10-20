@@ -92,11 +92,11 @@ jobs:
         run: |
           git cherry-pick --abort
           git checkout master
-          git checkout -b cp-force-2 --track origin/${BETA_BRANCH}
-          echo "head sha is $(git rev-parse cp-force-2)"
+          git checkout -b cp-force-3 --track origin/${BETA_BRANCH}
+          echo "head sha is $(git rev-parse cp-force-3)"
           git cherry-pick -Xtheirs ${MERGED_SHA}
           git status
-          git push -u origin cp-force-2
+          git push -u origin cp-force-3
           gh pr create --title "[force][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_WARNING}" --base ${BETA_BRANCH}
         env:
           GITHUB_TOKEN: ${{ github.token }}
