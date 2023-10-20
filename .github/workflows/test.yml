@@ -48,7 +48,7 @@ jobs:
           CP_TEMPLATE+="**Why this PR?**<br>"
           CP_TEMPLATE+="The label 'cp: merge-to-beta' was added to the initial PR.<br><br>"
           CP_TEMPLATE+="**Have Questions?**<br>"
-          CP_TEMPLATE+="Open an issue for team-release, or ping @flutter-release-eng<br>"
+          CP_TEMPLATE+="Open an issue for team-release, or ping @flutter-release-eng<br><br>"
           echo "CP_TEMPLATE=${CP_TEMPLATE}" >> $GITHUB_ENV
       - name: Create cp template when merge conflict
         run : |
