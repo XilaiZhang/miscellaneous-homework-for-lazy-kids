@@ -85,7 +85,7 @@ jobs:
           gh pr create --title "[flutter-release][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_TEMPLATE}" --base origin/${BETA_BRANCH}
         env:
           GITHUB_TOKEN: ${{ github.token }}
-            # Force a cherry pick by accepting theirs if there is a merge conflict. Inform author.
+      # Force a cherry pick by accepting ours ( the cp ) if there is a merge conflict. Inform author.
       - name: Force Cherrypick
         if: ${{ failure() }}
         run: |
@@ -93,7 +93,7 @@ jobs:
           git checkout master
           git checkout -b cp-${MERGED_SHA}-force --track origin/${BETA_BRANCH}
           echo "head sha is $(git rev-parse cp-$MERGED_SHA-force)"
-          git cherry-pick -Xtheirs ${MERGED_SHA}
+          git cherry-pick -Xours ${MERGED_SHA}
           git status
           git push -u origin cp-${MERGED_SHA}-force
           gh pr create --title "[force][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_WARNING}" --base origin/${BETA_BRANCH}
