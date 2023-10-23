@@ -45,6 +45,7 @@ jobs:
       - name: Manually Checkout beta release candidate branch
         run: |
           git remote -v
+          git fetch --all
           git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
           git status
       # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
