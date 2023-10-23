@@ -30,6 +30,10 @@ jobs:
           ref: ${{ github.env.BETA_BRANCH }}
           repository: flutter/engine
           token: ${{ github.token }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Setup Dart
         uses: dart-lang/setup-dart@v1
       # https://docs.github.com/en/webhooks/webhook-events-and-payloads#push
