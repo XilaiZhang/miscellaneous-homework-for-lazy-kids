@@ -25,8 +25,8 @@ jobs:
           echo "BETA_BRANCH=$(echo $BETA_BRANCH | tr -d '\n')" >> $GITHUB_ENV
       - name: print github env
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+          GITHUB_ENV: ${{ toJson(github.env) }}
+        run: echo "$GITHUB_ENV"
       # Note: flutter/engine doesn't have a beta branch.
       - name: Checkout flutter/engine Repo
         uses: actions/checkout@v4
