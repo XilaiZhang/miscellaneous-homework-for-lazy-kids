@@ -46,26 +46,11 @@ jobs:
         run: |
           echo "DART_HASH=AFTER_HASH_PLACEHOLDER" >> $GITHUB_ENV
           echo "PREV_HASH=668bef34e453fc84ab9fa572d917110b51fa88eb" >> $GITHUB_ENV
+      # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
       - name: Update Dart Hash
-        id: debug
         run: |
-          sed -i -e "s/$PREV_HASH/$DART_HASH/g" DEPS 2>> errors.txt || true
-          echo ::set-output name=errors::`cat errors.txt`
           sed -i -e "s/$PREV_HASH/$DART_HASH/g" DEPS
-      - name: use error detail on failure
-        if: ${{ failure() }}
-        run: |
-          echo ${{ steps.debug.outputs.errors }}
-      - name: Verify Cat
-        id: cat
-        run: |
-          cat DEPS | grep ${DART_HASH} 2>> errors.txt || true
-          echo ::set-output name=errors::`cat errors.txt`
-          cat DEPS | grep ${DART_HASH}
-      - name: use error detail on failure
-        if: ${{ failure() }}
-        run: |
-          echo ${{ steps.cat.outputs.errors }}
+          cat DEPS | grep 'dart_revision'
       # https://github.com/flutter/engine/tree/main/tools/licenses
       # - name: Run license script
       #   run: |
