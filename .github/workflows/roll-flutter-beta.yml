@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: beta
-          repository: flutter/engine
+          repository: flutter/flutter
           token: ${{ github.token }}
       - name: Read Beta Candidate Name
         id: version
@@ -23,6 +23,13 @@ jobs:
       - name: Trim Ending newline
         run: |
           echo "BETA_BRANCH=$(echo $BETA_BRANCH | tr -d '\n')" >> $GITHUB_ENV
+      # Note: flutter/engine doesn't have a beta branch.
+      - name: Checkout flutter/engine Repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${BETA_BRANCH}
+          repository: flutter/engine
+          token: ${{ github.token }}
       - name: Setup Dart
         uses: dart-lang/setup-dart@v1
       # https://docs.github.com/en/webhooks/webhook-events-and-payloads#push
