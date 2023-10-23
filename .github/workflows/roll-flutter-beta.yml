@@ -27,7 +27,7 @@ jobs:
       - name: Checkout flutter/engine Repo
         uses: actions/checkout@v4
         with:
-          ref: ${BETA_BRANCH}
+          ref: ${{ github.env.BETA_BRANCH }}
           repository: flutter/engine
           token: ${{ github.token }}
       - name: Setup Dart
