@@ -47,10 +47,15 @@ jobs:
           echo "DART_HASH=AFTER_HASH_PLACEHOLDER" >> $GITHUB_ENV
           echo "PREV_HASH=668bef34e453fc84ab9fa572d917110b51fa88eb" >> $GITHUB_ENV
       - name: Update Dart Hash
+        id: debug
         run: |
-          sed -i -e "s/$PREV_HASH/$DART_HASH/g" DEPS
+          sed -i -e "s/$PREV_HASH/$DART_HASH/g" DEPS 2>> errors.txt || true
+          echo ::set-output name=errors::`cat errors.txt`
           cat DEPS | grep ${DART_HASH}
           cat DEPS | grep ${PREV_HASH}
+      - name: use error detail on failure
+        run: |
+          echo ${{ steps.debug.outputs.errors }}
       # https://github.com/flutter/engine/tree/main/tools/licenses
       # - name: Run license script
       #   run: |
