@@ -50,10 +50,10 @@ jobs:
         id: debug
         run: |
           sed -i -e "s/$PREV_HASH/$DART_HASH/g" DEPS 2>> errors.txt || true
-          cat DEPS | grep ${DART_HASH} 2>> errors.txt || true
-          cat DEPS | grep ${PREV_HASH} 2>> errors.txt || true
           echo ::set-output name=errors::`cat errors.txt`
+          sed -i -e "s/$PREV_HASH/$DART_HASH/g" DEPS
       - name: use error detail on failure
+        if: ${{ failure() }}
         run: |
           echo ${{ steps.debug.outputs.errors }}
       # https://github.com/flutter/engine/tree/main/tools/licenses
