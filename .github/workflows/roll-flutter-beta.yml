@@ -6,7 +6,7 @@ jobs:
   roll-engine:
     runs-on: ubuntu-latest 
     steps:
-      - name: Checkout Flutter Engine Repo
+      - name: Checkout flutter/flutter Repo
         uses: actions/checkout@v4
         with:
           ref: beta
@@ -23,6 +23,10 @@ jobs:
       - name: Trim Ending newline
         run: |
           echo "BETA_BRANCH=$(echo $BETA_BRANCH | tr -d '\n')" >> $GITHUB_ENV
+      - name: print github env
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       # Note: flutter/engine doesn't have a beta branch.
       - name: Checkout flutter/engine Repo
         uses: actions/checkout@v4
