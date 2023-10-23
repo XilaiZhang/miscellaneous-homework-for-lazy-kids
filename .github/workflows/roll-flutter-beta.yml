@@ -45,13 +45,12 @@ jobs:
       - name: Manually Checkout beta release candidate branch
         run: |
           git remote -v
-          git fetch --all
           git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
           git status
       # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
       - name: Update Dart Hash
         run: |
-          curl -o replace-hash.dart https://github.com/XilaiZhang/miscellaneous-side-project/blob/master/.github/workflows/replace-hash.dart
+          curl -o replace-hash.dart https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/replace-hash.dart
           dart run replace-hash.dart $DART_HASH DEPS
           cat DEPS | grep 'dart_revision'
       # https://github.com/flutter/engine/tree/main/tools/licenses
