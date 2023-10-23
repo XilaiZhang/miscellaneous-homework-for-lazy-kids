@@ -34,10 +34,10 @@ jobs:
           ref: ${{ github.env.BETA_BRANCH }}
           repository: flutter/engine
           token: ${{ github.token }}
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      - name: Manually Checkout beta release candidate branch
+        run: |
+          git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
+          git status
       - name: Setup Dart
         uses: dart-lang/setup-dart@v1
       # https://docs.github.com/en/webhooks/webhook-events-and-payloads#push
@@ -49,7 +49,8 @@ jobs:
       # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
       - name: Update Dart Hash
         run: |
-          sed -i -e "s/$PREV_HASH/$DART_HASH/g" DEPS
+          curl -o replace-hash.dart https://github.com/XilaiZhang/miscellaneous-side-project/blob/master/.github/workflows/replace-hash.dart
+          dart run replace-hash.dart ${DART_HASH} DEPS
           cat DEPS | grep 'dart_revision'
       # https://github.com/flutter/engine/tree/main/tools/licenses
       # - name: Run license script
