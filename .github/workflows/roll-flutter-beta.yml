@@ -42,10 +42,9 @@ jobs:
         run: |
           echo "DART_HASH=AFTER_HASH_PLACEHOLDER" >> $GITHUB_ENV
           echo "PREV_HASH=668bef34e453fc84ab9fa572d917110b51fa88eb" >> $GITHUB_ENV
-      - name: Manually Checkout beta release candidate branch
+      - name: Create Feature Branch
         run: |
           git remote -v
-          git fetch --all
           git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
           git status
       # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
@@ -57,7 +56,9 @@ jobs:
       # https://github.com/flutter/engine/tree/main/tools/licenses
       - name: Run license script
         run: |
-          cd engine/tools/licenses
+          pwd
+          ls
+          cd tools/licenses
           dart pub get
           gclient sync -D
           rm -rf ../../../out/licenses
