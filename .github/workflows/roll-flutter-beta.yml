@@ -48,7 +48,7 @@ jobs:
           echo "PREV_HASH=668bef34e453fc84ab9fa572d917110b51fa88eb" >> $GITHUB_ENV
       - name: Update Dart Hash
         run: |
-          sed -i "s/$PREV_HASH/$DART_HASH/g" DEPS
+          sed -i -e "s/$PREV_HASH/$DART_HASH/g" DEPS
           cat DEPS | grep ${DART_HASH}
           cat DEPS | grep ${PREV_HASH}
       # https://github.com/flutter/engine/tree/main/tools/licenses
