@@ -35,10 +35,11 @@ jobs:
           repository: flutter/engine
           token: ${{ github.token }}
       # Engine license script requires SDK version >=3.2.0-0 <4.0.0.
+      # The highest on stable only goes to 3.1.4.
       - name: Setup Dart
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: 3.2.0
+          sdk: beta
       # https://docs.github.com/en/webhooks/webhook-events-and-payloads#push
       # github.event.after has the latest dart hash.
       - name: Store Dart Hash
