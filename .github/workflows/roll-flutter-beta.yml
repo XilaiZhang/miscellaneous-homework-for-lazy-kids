@@ -50,6 +50,8 @@ jobs:
         id: debug
         run: |
           sed -i -e "s/$PREV_HASH/$DART_HASH/g" DEPS 2>> errors.txt || true
+          cat DEPS | grep ${DART_HASH} 2>> errors.txt || true
+          cat DEPS | grep ${PREV_HASH} 2>> errors.txt || true
           echo ::set-output name=errors::`cat errors.txt`
       - name: use error detail on failure
         run: |
