@@ -34,10 +34,6 @@ jobs:
           ref: ${{ github.env.BETA_BRANCH }}
           repository: flutter/engine
           token: ${{ github.token }}
-      - name: Manually Checkout beta release candidate branch
-        run: |
-          git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
-          git status
       - name: Setup Dart
         uses: dart-lang/setup-dart@v1
       # https://docs.github.com/en/webhooks/webhook-events-and-payloads#push
@@ -46,6 +42,12 @@ jobs:
         run: |
           echo "DART_HASH=AFTER_HASH_PLACEHOLDER" >> $GITHUB_ENV
           echo "PREV_HASH=668bef34e453fc84ab9fa572d917110b51fa88eb" >> $GITHUB_ENV
+      - name: Manually Checkout beta release candidate branch
+        run: |
+          git remote -v
+          git fetch --all
+          git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
+          git status
       # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
       - name: Update Dart Hash
         run: |
