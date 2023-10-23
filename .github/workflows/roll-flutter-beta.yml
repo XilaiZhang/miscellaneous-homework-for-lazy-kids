@@ -56,6 +56,16 @@ jobs:
         if: ${{ failure() }}
         run: |
           echo ${{ steps.debug.outputs.errors }}
+      - name: Verify Cat
+        id: cat
+        run: |
+          cat DEPS | grep ${DART_HASH} 2>> errors.txt || true
+          echo ::set-output name=errors::`cat errors.txt`
+          cat DEPS | grep ${DART_HASH}
+      - name: use error detail on failure
+        if: ${{ failure() }}
+        run: |
+          echo ${{ steps.cat.outputs.errors }}
       # https://github.com/flutter/engine/tree/main/tools/licenses
       # - name: Run license script
       #   run: |
