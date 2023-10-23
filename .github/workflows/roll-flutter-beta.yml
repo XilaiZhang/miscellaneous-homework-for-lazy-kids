@@ -51,8 +51,6 @@ jobs:
         run: |
           sed -i -e "s/$PREV_HASH/$DART_HASH/g" DEPS 2>> errors.txt || true
           echo ::set-output name=errors::`cat errors.txt`
-          cat DEPS | grep ${DART_HASH}
-          cat DEPS | grep ${PREV_HASH}
       - name: use error detail on failure
         run: |
           echo ${{ steps.debug.outputs.errors }}
