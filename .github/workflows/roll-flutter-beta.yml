@@ -31,7 +31,7 @@ jobs:
       - name: Checkout flutter/engine Repo
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.env.BETA_BRANCH }}
+          ref: ${{ env.BETA_BRANCH }}
           repository: flutter/engine
           token: ${{ github.token }}
       - name: Setup Dart
@@ -55,29 +55,29 @@ jobs:
           dart run replace-hash.dart $DART_HASH DEPS
           cat DEPS | grep 'dart_revision'
       # https://github.com/flutter/engine/tree/main/tools/licenses
-      # - name: Run license script
-      #   run: |
-      #     cd engine/tools/licenses
-      #     dart pub get
-      #     gclient sync -D
-      #     rm -rf ../../../out/licenses
-      #     dart --enable-asserts lib/main.dart --src ../../.. --out ../../../out/licenses --golden ../../ci/licenses_golden
-      # - name: Inspect License content change
-      #   run: |
-      #     cp ../../../out/licenses/* ../../ci/licenses_golden
-      #     git diff
-      # - name: Create Engine PR
-      #   run: |
-      #     git --version
-      #     git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
-      #     git status
-      #     git add .
-      #     git status
-      #     git commit -m "roll dart to ${DART_HASH}"
-      #     git status
-      #     git push -u origin roll-dart-${DART_HASH}
-      #     gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}" --body "cc @XilaiZhang"
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
+      - name: Run license script
+        run: |
+          cd engine/tools/licenses
+          dart pub get
+          gclient sync -D
+          rm -rf ../../../out/licenses
+          dart --enable-asserts lib/main.dart --src ../../.. --out ../../../out/licenses --golden ../../ci/licenses_golden
+      - name: Inspect License content change
+        run: |
+          cp ../../../out/licenses/* ../../ci/licenses_golden
+          git diff
+      - name: Create Engine PR
+        run: |
+          git --version
+          git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
+          git status
+          git add .
+          git status
+          git commit -m "roll dart to ${DART_HASH}"
+          git status
+          git push -u origin roll-dart-${DART_HASH}
+          gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}" --body "cc @XilaiZhang"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
 
