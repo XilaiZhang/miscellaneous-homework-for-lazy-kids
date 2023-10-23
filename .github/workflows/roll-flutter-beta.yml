@@ -58,13 +58,14 @@ jobs:
           dart run replace-hash.dart $DART_HASH DEPS
           cat DEPS | grep 'dart_revision'
       # https://github.com/flutter/engine/tree/main/tools/licenses
+      # Note: run gclient before version resolving.
       - name: Run license script
         run: |
           pwd
           ls
           cd tools/licenses
-          dart pub get
           gclient sync -D
+          dart pub get
           rm -rf ../../../out/licenses
           dart --enable-asserts lib/main.dart --src ../../.. --out ../../../out/licenses --golden ../../ci/licenses_golden
       - name: Inspect License content change
