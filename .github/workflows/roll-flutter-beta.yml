@@ -27,19 +27,9 @@ jobs:
         env:
           GITHUB_ENV: ${{ toJson(github.env) }}
         run: echo "$GITHUB_ENV"
-      # Note: flutter/engine doesn't have a beta branch.
-      # Use ${{ env.BETA_BRANCH }} and not {{ github.env.BETA_BRANCH }}.
-      # The fork repo (XilaiZhang/engine) is always up to date with flutter/engine, due to a separate workflow
-      # https://github.com/XilaiZhang/engine/blob/main/.github/workflows/sync-beta.yml
-      - name: Checkout XilaiZhang/engine Repo
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ env.BETA_BRANCH }}
-          repository: XilaiZhang/engine
-          token: ${{ github.token }}
       # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-system-path
       # Don't export path, add it through env variable.
-      - name: Set up gclient
+      - name: Install gclient
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git /tmp/depot_tools
           echo "/tmp/depot_tools" >> $GITHUB_PATH
@@ -47,6 +37,12 @@ jobs:
           git config user.email "xilaizhang@g.ucla.edu"
           git config core.autocrlf false
           git config core.filemode false
+      # Note: flutter/engine doesn't have a beta branch.
+      # Use ${{ env.BETA_BRANCH }} and not {{ github.env.BETA_BRANCH }} to reference engine beta.
+      - name: Create Engine Folder
+        run: |
+          mkdir engine
+          cd engine
       - name: Setup Gclient Config File
         run : |
           echo 'solutions = ['                                               >> .gclient
