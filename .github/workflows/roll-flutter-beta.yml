@@ -55,6 +55,11 @@ jobs:
           echo '    "safesync_url": "",'                                     >> .gclient
           echo '  },'                                                        >> .gclient
           echo ']'                                                           >> .gclient
+      # TODO(xilaizhang): install private key on dart sdk github.
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       # https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment
       - name: Gclient sync
         run: |
