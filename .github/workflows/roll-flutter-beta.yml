@@ -27,6 +27,11 @@ jobs:
         env:
           GITHUB_ENV: ${{ toJson(github.env) }}
         run: echo "$GITHUB_ENV"
+      - name: Set up gclient
+        run: |
+          current_dir = $(pwd)
+          git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $current_dir/depot_tools
+          export PATH=$current_dir/depot_tools:$PATH
       # Note: flutter/engine doesn't have a beta branch.
       - name: Checkout flutter/engine Repo
         uses: actions/checkout@v4
