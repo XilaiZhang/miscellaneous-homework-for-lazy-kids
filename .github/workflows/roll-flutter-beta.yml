@@ -28,12 +28,45 @@ jobs:
           GITHUB_ENV: ${{ toJson(github.env) }}
         run: echo "$GITHUB_ENV"
       # Note: flutter/engine doesn't have a beta branch.
-      - name: Checkout flutter/engine Repo
+      # Use ${{ env.BETA_BRANCH }} and not {{ github.env.BETA_BRANCH }}.
+      # The fork repo (XilaiZhang/engine) is always up to date with flutter/engine, due to a separate workflow
+      # https://github.com/XilaiZhang/engine/blob/main/.github/workflows/sync-beta.yml
+      - name: Checkout XilaiZhang/engine Repo
         uses: actions/checkout@v4
         with:
           ref: ${{ env.BETA_BRANCH }}
-          repository: flutter/engine
+          repository: XilaiZhang/engine
           token: ${{ github.token }}
+      # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-system-path
+      # Don't export path, add it through env variable.
+      - name: Set up gclient
+        run: |
+          git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git /tmp/depot_tools
+          echo "/tmp/depot_tools" >> $GITHUB_PATH
+          git config user.name "XilaiZhang"
+          git config user.email "xilaizhang@g.ucla.edu"
+          git config core.autocrlf false
+          git config core.filemode false
+      - name: Setup Gclient Config File
+        run : |
+          echo 'solutions = ['                                               >> .gclient
+          echo '  {'                                                         >> .gclient
+          echo '    "managed": False,'                                       >> .gclient
+          echo '    "name": "src/flutter",'                                  >> .gclient
+          echo '    "url": "git@github.com:XilaiZhang/engine.git",'          >> .gclient
+          echo '    "custom_deps": {},'                                      >> .gclient
+          echo '    "deps_file": "DEPS",'                                    >> .gclient
+          echo '    "safesync_url": "",'                                     >> .gclient
+          echo '  },'                                                        >> .gclient
+          echo ']'                                                           >> .gclient
+      # https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment
+      - name: Gclient sync
+        run: |
+          gclient sync
+          cd src/flutter
+          git remote add upstream git@github.com:flutter/engine.git
+          git remote rm origin
+          git remote add origin git@github.com:XilaiZhang/engine.git
       # Engine license script requires SDK version >=3.2.0-0 <4.0.0.
       # The highest on stable only goes to 3.1.4.
       - name: Setup Dart
@@ -57,16 +90,6 @@ jobs:
           curl -o replace-hash.dart https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/replace-hash.dart
           dart run replace-hash.dart $DART_HASH DEPS
           cat DEPS | grep 'dart_revision'
-      # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-system-path
-      # Don't export path, add it through env variable.
-      - name: Set up gclient
-        run: |
-          git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git /tmp/depot_tools
-          echo "/tmp/depot_tools" >> $GITHUB_PATH
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-          git config core.autocrlf false
-          git config core.filemode false
       # https://github.com/flutter/engine/tree/main/tools/licenses
       # Note: run gclient before version resolving.
       - name: Run license script
@@ -74,7 +97,6 @@ jobs:
           pwd
           ls
           cd tools/licenses
-          /tmp/depot_tools/gclient sync -D
           dart pub get
           rm -rf ../../../out/licenses
           dart --enable-asserts lib/main.dart --src ../../.. --out ../../../out/licenses --golden ../../ci/licenses_golden
