@@ -62,6 +62,8 @@ jobs:
       # https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment
       - name: Gclient sync
         run: |
+          pwd
+          ls
           gclient sync
           cd src/flutter
           git remote add upstream git@github.com:flutter/engine.git
