@@ -63,6 +63,10 @@ jobs:
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git /tmp/depot_tools
           echo "/tmp/depot_tools" >> $GITHUB_PATH
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git config core.autocrlf false
+          git config core.filemode false
       # https://github.com/flutter/engine/tree/main/tools/licenses
       # Note: run gclient before version resolving.
       - name: Run license script
