@@ -57,10 +57,12 @@ jobs:
           curl -o replace-hash.dart https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/replace-hash.dart
           dart run replace-hash.dart $DART_HASH DEPS
           cat DEPS | grep 'dart_revision'
+      # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-system-path
+      # Don't export path, add it through env variable.
       - name: Set up gclient
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git /tmp/depot_tools
-          export PATH=/tmp/depot_tools:$PATH
+          echo "/tmp/depot_tools" >> $GITHUB_PATH
       # https://github.com/flutter/engine/tree/main/tools/licenses
       # Note: run gclient before version resolving.
       - name: Run license script
