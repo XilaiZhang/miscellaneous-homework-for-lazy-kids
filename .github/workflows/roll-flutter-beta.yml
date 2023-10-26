@@ -42,8 +42,8 @@ jobs:
       - name: Create Engine Folder
         run: |
           mkdir engine
-      # The fork repo (XilaiZhang/engine) is always up to date with flutter/engine, due to a separate workflow
-      # https://github.com/XilaiZhang/engine/blob/main/.github/workflows/sync-beta.yml
+      # Note: sync to flutter/engine in gclient. Syncing to a fork will cause license script to not find pattern.
+      # Pattern not found errors such as https://paste.googleplex.com/6295542081519616.
       - name: Setup Gclient Config File
         working-directory: ./engine
         run : |
@@ -51,7 +51,7 @@ jobs:
           echo '  {'                                                         >> .gclient
           echo '    "managed": False,'                                       >> .gclient
           echo '    "name": "src/flutter",'                                  >> .gclient
-          echo '    "url": "git@github.com:XilaiZhang/engine.git",'          >> .gclient
+          echo '    "url": "git@github.com:flutter/engine.git",'             >> .gclient
           echo '    "custom_deps": {},'                                      >> .gclient
           echo '    "deps_file": "DEPS",'                                    >> .gclient
           echo '    "safesync_url": "",'                                     >> .gclient
@@ -87,12 +87,13 @@ jobs:
           echo "DART_HASH=620c172167c07c66324778ce4122b4119abebcca" >> $GITHUB_ENV
       # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
       # Specify the working directory of a step, otherwise it runs from root directory.
+      # Note: track the remote branch instead of the fork.
       - name: Create Feature Branch
         working-directory: ./engine/src/flutter
         run: |
           git remote -v
           git fetch --all
-          git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
+          git checkout -b roll-dart-${DART_HASH} --track upstream/${BETA_BRANCH}
           git status
       # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
       - name: Update Dart Hash
