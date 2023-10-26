@@ -42,8 +42,10 @@ jobs:
       - name: Create Engine Folder
         run: |
           mkdir engine
-          cd engine
+      # The fork repo (XilaiZhang/engine) is always up to date with flutter/engine, due to a separate workflow
+      # https://github.com/XilaiZhang/engine/blob/main/.github/workflows/sync-beta.yml
       - name: Setup Gclient Config File
+        working-directory: ./engine
         run : |
           echo 'solutions = ['                                               >> .gclient
           echo '  {'                                                         >> .gclient
@@ -62,6 +64,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       # https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment
       - name: Gclient sync
+        working-directory: ./engine
         run: |
           pwd
           ls
@@ -81,14 +84,15 @@ jobs:
       - name: Store Dart Hash
         run: |
           echo "DART_HASH=AFTER_HASH_PLACEHOLDER" >> $GITHUB_ENV
-          echo "PREV_HASH=668bef34e453fc84ab9fa572d917110b51fa88eb" >> $GITHUB_ENV
       - name: Create Feature Branch
+        working-directory: ./engine/src/flutter
         run: |
           git remote -v
           git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
           git status
       # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
       - name: Update Dart Hash
+        working-directory: ./engine/src/flutter
         run: |
           curl -o replace-hash.dart https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/replace-hash.dart
           dart run replace-hash.dart $DART_HASH DEPS
@@ -96,18 +100,20 @@ jobs:
       # https://github.com/flutter/engine/tree/main/tools/licenses
       # Note: run gclient before version resolving.
       - name: Run license script
+        working-directory: ./engine/src/flutter/tools/licenses
         run: |
           pwd
           ls
-          cd tools/licenses
           dart pub get
           rm -rf ../../../out/licenses
           dart --enable-asserts lib/main.dart --src ../../.. --out ../../../out/licenses --golden ../../ci/licenses_golden
       - name: Inspect License content change
+        working-directory: ./engine/src/flutter/tools/licenses
         run: |
           cp ../../../out/licenses/* ../../ci/licenses_golden
           git diff
       - name: Create Engine PR
+        working-directory: ./engine/src/flutter
         run: |
           git --version
           git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
