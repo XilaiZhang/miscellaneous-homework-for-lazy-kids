@@ -84,10 +84,13 @@ jobs:
       - name: Store Dart Hash
         run: |
           echo "DART_HASH=AFTER_HASH_PLACEHOLDER" >> $GITHUB_ENV
+      # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
+      # Specify the working directory of a step, otherwise it runs from root directory.
       - name: Create Feature Branch
         working-directory: ./engine/src/flutter
         run: |
           git remote -v
+          git fetch --all
           git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
           git status
       # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
@@ -116,7 +119,7 @@ jobs:
         working-directory: ./engine/src/flutter
         run: |
           git --version
-          git checkout -b roll-dart-${DART_HASH} --track origin/${BETA_BRANCH}
+          git branch
           git status
           git add .
           git status
