@@ -27,10 +27,6 @@ jobs:
         run: |
           git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git /tmp/depot_tools
           echo "/tmp/depot_tools" >> $GITHUB_PATH
-          git config user.name "XilaiZhang"
-          git config user.email "xilaizhang@g.ucla.edu"
-          git config core.autocrlf false
-          git config core.filemode false
       # Note: flutter/engine doesn't have a beta branch.
       # Use ${{ env.BETA_BRANCH }} and not {{ github.env.BETA_BRANCH }} to reference engine beta.
       - name: Create Engine Folder
