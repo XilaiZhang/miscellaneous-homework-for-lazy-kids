@@ -6,24 +6,18 @@ jobs:
   roll-engine:
     runs-on: ubuntu-latest 
     steps:
-      - name: Checkout flutter/flutter Repo
-        uses: actions/checkout@v4
+      # TODO(xilaizhang): install private key on dart sdk github.
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.7.0
         with:
-          ref: beta
-          repository: flutter/flutter
-          token: ${{ github.token }}
-      - name: Read Beta Candidate Name
-        id: version
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./bin/internal/release-candidate-branch.version
-      - name: Set Beta Branch
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # Use curl instead of checkout to save disk space.
+      # disk space usage is gigantic on this workflow due to gclient sync.
+      - name: Get Beta Branch
         run: |
-          echo "BETA_BRANCH=${{ steps.version.outputs.content }}" >> $GITHUB_ENV
-      - name: Trim Ending newline
-        run: |
-          echo "BETA_BRANCH=$(echo $BETA_BRANCH | tr -d '\n')" >> $GITHUB_ENV
-      - name: print github env
+          curl -o beta.json https://raw.githubusercontent.com/flutter/flutter/beta/bin/internal/release-candidate-branch.version
+          echo "BETA_BRANCH=$(cat beta.json | tr -d '\n')" >> $GITHUB_ENV
+      - name: Print Github Env
         env:
           GITHUB_ENV: ${{ toJson(github.env) }}
         run: echo "$GITHUB_ENV"
@@ -57,11 +51,6 @@ jobs:
           echo '    "safesync_url": "",'                                     >> .gclient
           echo '  },'                                                        >> .gclient
           echo ']'                                                           >> .gclient
-      # TODO(xilaizhang): install private key on dart sdk github.
-      - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       # https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment
       - name: Gclient sync
         working-directory: ./engine
