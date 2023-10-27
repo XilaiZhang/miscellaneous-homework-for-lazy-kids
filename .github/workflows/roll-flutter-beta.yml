@@ -113,9 +113,6 @@ jobs:
       - name: Remove untracked files src
         working-directory: ./engine/src/flutter
         run: |
-          git clean -n -d -X
-          git clean -f -d -X
-          git status
           git clean -n
           git clean -f
           git status
