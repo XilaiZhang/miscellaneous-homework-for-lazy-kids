@@ -61,7 +61,6 @@ third_party/dart/third_party/binaryen
 third_party/dart/third_party/d8
 third_party/dart/third_party/devtools
 third_party/dart/third_party/firefox_jsshell
-third_party/dart/third_party/pkg
 third_party/dart/third_party/pkg_tested
 third_party/dart/third_party/requirejs
 third_party/dart/tools
