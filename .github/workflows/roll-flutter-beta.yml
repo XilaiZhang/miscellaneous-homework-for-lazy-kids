@@ -116,6 +116,9 @@ jobs:
           git clean -n -d -X
           git clean -f -d -X
           git status
+          git clean -n
+          git clean -f
+          git status
       # https://github.com/flutter/engine/tree/main/tools/licenses
       # Note: run gclient before version resolving.
       # /tmp/depot_tools/gclient sync -D
