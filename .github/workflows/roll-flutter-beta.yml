@@ -121,6 +121,8 @@ jobs:
           curl -o replace-hash.dart https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/replace-hash.dart
           dart run replace-hash.dart $DART_HASH DEPS
           cat DEPS | grep 'dart_revision'
+          git add DEPS
+          git status
       # https://github.com/flutter/engine/tree/main/tools/licenses
       # Note: run gclient before version resolving.
       - name: Run license script
