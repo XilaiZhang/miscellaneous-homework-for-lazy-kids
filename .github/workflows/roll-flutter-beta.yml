@@ -142,10 +142,10 @@ jobs:
           git status
           git add .
           git status
-          git commit -m "roll dart to ${DART_HASH}"
+          git commit --no-verify -m "roll dart to ${DART_HASH}"
           git status
           git remote -v
-          git push -f origin roll-dart-${DART_HASH}
+          git push --no-verify -f origin roll-dart-${DART_HASH}
           gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}" --body "cc @XilaiZhang" --base ${BETA_BRANCH}
         env:
           GITHUB_TOKEN: ${{ github.token }}
