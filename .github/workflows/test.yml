@@ -104,6 +104,6 @@ jobs:
           git cherry-pick -Xtheirs ${MERGED_SHA}
           git status
           git push -u origin cp-force-4
-          gh pr create --title "[force][cp-beta]${MERGED_SHA}" --reviewer XilaiZhang --body "${CP_WARNING}" --base ${BETA_BRANCH}
+          gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}" --body "cc @XilaiZhang" --repo flutter/engine --head XilaiZhang/engine:roll-dart-${DART_HASH} --base ${BETA_BRANCH}
         env:
           GITHUB_TOKEN: ${{ github.token }}
