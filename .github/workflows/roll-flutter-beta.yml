@@ -82,22 +82,13 @@ jobs:
       # TODO(xilaizhang): replace dart hash with real dart hash.
       - name: Store Dart Hash
         run: |
-          echo "DART_HASH=620c172167c07c66324778ce4122b4119abebcca" >> $GITHUB_ENV
+          echo "DART_HASH=077d768accfa3419b8b57cf779cca8228b417faa" >> $GITHUB_ENV
       # This is needed for license script to work.
       # - name: Remove untracked files
       #   working-directory: ./engine/src/flutter
       #   run: |
       #     git clean -n -d -X
       #     git clean -f -d -X
-      #     git status
-      # # Stash the files we deleted to save disk space.
-      # - name: Remove untracked files src
-      #   working-directory: ./engine/src
-      #   run: |
-      #     git clean -n -d -X
-      #     git clean -f -d -X
-      #     git status
-      #     git stash
       #     git status
       # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
       # Specify the working directory of a step, otherwise it runs from root directory.
@@ -117,6 +108,13 @@ jobs:
           dart run replace-hash.dart $DART_HASH DEPS
           cat DEPS | grep 'dart_revision'
           git add DEPS
+          git status
+      # Required for license to work.
+      - name: Remove untracked files src
+        working-directory: ./engine/src/flutter
+        run: |
+          git clean -n -d -X
+          git clean -f -d -X
           git status
       # https://github.com/flutter/engine/tree/main/tools/licenses
       # Note: run gclient before version resolving.
@@ -145,6 +143,8 @@ jobs:
           git commit -m "roll dart to ${DART_HASH}"
           git status
           git push -u origin roll-dart-${DART_HASH}
+          git config user.email "xilaizhang@g.ucla.edu"
+          git config user.name "XilaiZhang"
           gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}" --body "cc @XilaiZhang"
         env:
           GITHUB_TOKEN: ${{ github.token }}
