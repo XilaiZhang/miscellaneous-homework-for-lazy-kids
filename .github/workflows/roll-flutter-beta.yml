@@ -136,6 +136,8 @@ jobs:
         working-directory: ./engine/src/flutter
         run: |
           git --version
+          git config user.email "xilaizhang@g.ucla.edu"
+          git config user.name "XilaiZhang"
           git branch
           git status
           git add .
@@ -143,8 +145,6 @@ jobs:
           git commit -m "roll dart to ${DART_HASH}"
           git status
           git push -u origin roll-dart-${DART_HASH}
-          git config user.email "xilaizhang@g.ucla.edu"
-          git config user.name "XilaiZhang"
           gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}" --body "cc @XilaiZhang"
         env:
           GITHUB_TOKEN: ${{ github.token }}
