@@ -59,15 +59,24 @@ jobs:
           git remote rm origin
           git remote add origin git@github.com:XilaiZhang/engine.git
       # Get list of paths to skip
-      - name: Remove Paths to Skip
-        working-directory: ./engine/src
+      # - name: Remove Paths to Skip
+      #   working-directory: ./engine/src
+      #   run: |
+      #     curl -o skip_path.txt https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/skip_path.txt
+      #     while read line; do
+      #       skip_path=$(echo "$line" | sed -e 's/\n$//')
+      #       rm -rf $skip_path
+      #     done < skip_path.txt
+      #     ls
+      # Remove directories that aren't related to license
+      - name: Remove Directories to Skip
+        working-directory: ./engine
         run: |
-          curl -o skip_path.txt https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/skip_path.txt
+          curl -o skip_dir.txt https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/skip_dir.txt
           while read line; do
-            skip_path=$(echo "$line" | sed -e 's/\n$//')
-            rm -rf $skip_path
-          done < skip_path.txt
-          ls
+            skip_dir=$(echo "$line" | sed -e 's/\n$//')
+            find . -type d -name "$B" -exec rm -rf {} \;
+          done < skip_dir.txt
       # Engine license script requires SDK version >=3.2.0-0 <4.0.0.
       # The highest on stable only goes to 3.1.4.
       - name: Setup Dart
