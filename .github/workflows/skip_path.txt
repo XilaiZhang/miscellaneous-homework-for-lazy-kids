@@ -144,7 +144,6 @@ third_party/root_certificates/certdata.pem
 third_party/root_certificates/certdata.txt
 third_party/shaderc/third_party/LICENSE.glslang
 third_party/shaderc/third_party/LICENSE.spirv-tools
-third_party/skia/bazel
 third_party/skia/bench
 third_party/skia/demos.skia.org
 third_party/skia/docs
