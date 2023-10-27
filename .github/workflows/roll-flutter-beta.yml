@@ -92,6 +92,22 @@ jobs:
       - name: Store Dart Hash
         run: |
           echo "DART_HASH=620c172167c07c66324778ce4122b4119abebcca" >> $GITHUB_ENV
+      # This is needed for license script to work.
+      - name: Remove untracked files
+        working-directory: ./engine/src/flutter
+        run: |
+          git clean -n -d -X
+          git clean -f -d -X
+          git status
+      # Stash the files we deleted to save disk space.
+      - name: Remove untracked files src
+        working-directory: ./engine/src
+        run: |
+          git clean -n -d -X
+          git clean -f -d -X
+          git status
+          git stash
+          git status
       # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
       # Specify the working directory of a step, otherwise it runs from root directory.
       # Note: track the remote branch instead of the fork.
@@ -101,20 +117,6 @@ jobs:
           git remote -v
           git fetch --all
           git checkout -b roll-dart-${DART_HASH} --track upstream/${BETA_BRANCH}
-          git status
-      # This is needed for license script to work.
-      - name: Remove untracked files
-        working-directory: ./engine/src/flutter
-        run: |
-          git clean -n
-          git clean -fd
-      # This is needed for license script to work.
-      - name: Remove untracked files src
-        working-directory: ./engine/src
-        run: |
-          git stash
-          git clean -n
-          git clean -fd
           git status
       # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
       - name: Update Dart Hash
