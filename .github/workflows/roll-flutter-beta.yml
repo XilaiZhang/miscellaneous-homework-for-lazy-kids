@@ -102,6 +102,18 @@ jobs:
           git fetch --all
           git checkout -b roll-dart-${DART_HASH} --track upstream/${BETA_BRANCH}
           git status
+      # This is needed for license script to work.
+      - name: Remove untracked files
+        working-directory: ./engine/src/flutter
+        run: |
+          git clean -n
+          git clean -fd
+      # This is needed for license script to work.
+      - name: Remove untracked files src
+        working-directory: ./engine/src
+        run: |
+          git clean -n
+          git clean -fd
       # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
       - name: Update Dart Hash
         working-directory: ./engine/src/flutter
