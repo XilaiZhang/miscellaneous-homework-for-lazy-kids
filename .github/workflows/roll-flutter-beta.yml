@@ -37,16 +37,16 @@ jobs:
       - name: Setup Gclient Config File
         working-directory: ./engine
         run : |
-          echo 'solutions = ['                                               >> .gclient
-          echo '  {'                                                         >> .gclient
-          echo '    "managed": False,'                                       >> .gclient
-          echo '    "name": "src/flutter",'                                  >> .gclient
-          echo '    "url": "git@github.com:flutter/engine.git",'             >> .gclient
-          echo '    "custom_deps": {},'                                      >> .gclient
-          echo '    "deps_file": "DEPS",'                                    >> .gclient
-          echo '    "safesync_url": "",'                                     >> .gclient
-          echo '  },'                                                        >> .gclient
-          echo ']'                                                           >> .gclient
+          echo 'solutions = ['                                                              >> .gclient
+          echo '  {'                                                                        >> .gclient
+          echo '    "managed": False,'                                                      >> .gclient
+          echo '    "name": "src/flutter",'                                                 >> .gclient
+          echo '    "url": "git@github.com:flutter/engine.git@origin/${BETA_BRANCH}",'      >> .gclient
+          echo '    "custom_deps": {},'                                                     >> .gclient
+          echo '    "deps_file": "DEPS",'                                                   >> .gclient
+          echo '    "safesync_url": "",'                                                    >> .gclient
+          echo '  },'                                                                       >> .gclient
+          echo ']'                                                                          >> .gclient
       # https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment
       - name: Gclient sync
         working-directory: ./engine
