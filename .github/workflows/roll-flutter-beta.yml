@@ -1,7 +1,5 @@
 on: workflow_dispatch
 
-# TODO: the bot on dart should have permission to open PR on flutter/engine.
-
 jobs:
   roll-engine:
     runs-on: ubuntu-latest 
@@ -34,6 +32,8 @@ jobs:
           mkdir engine
       # Note: sync to flutter/engine in gclient. Syncing to a fork will cause license script to not find pattern.
       # Pattern not found errors such as https://paste.googleplex.com/6295542081519616.
+      # https://groups.google.com/a/chromium.org/g/chromium-discuss/c/E5F31qalpFc
+      # Gclient sync to beta branch.
       - name: Setup Gclient Config File
         working-directory: ./engine
         run : |
@@ -79,6 +79,7 @@ jobs:
           sdk: beta
       # https://docs.github.com/en/webhooks/webhook-events-and-payloads#push
       # github.event.after has the latest dart hash.
+      # don't use github.event.before since the hash in DEPS might be earlier.
       # TODO(xilaizhang): replace dart hash with real dart hash.
       - name: Store Dart Hash
         run: |
@@ -117,8 +118,7 @@ jobs:
           git clean -f
           git status
       # https://github.com/flutter/engine/tree/main/tools/licenses
-      # Note: run gclient before version resolving.
-      # /tmp/depot_tools/gclient sync -D
+      # Note: run gclient after updating dart hash.
       - name: Run license script
         working-directory: ./engine/src/flutter/tools/licenses
         run: |
@@ -133,6 +133,13 @@ jobs:
         run: |
           cp ../../../out/licenses/* ../../ci/licenses_golden
           git diff
+      # The fork repo (XilaiZhang/engine) is always up to date with flutter/engine, due to a separate workflow
+      # https://github.com/XilaiZhang/engine/blob/main/.github/workflows/sync-beta.yml
+      # Using -f and --no-verify to skip githooks as they fail on "git merge-base FETCH_HEAD HEAD".
+      # Can not reproduce the githook failures locally, therefore override.
+      # https://stackoverflow.com/questions/64040150/use-github-cli-to-raise-pr-to-upstream to raise pr on another repo,
+      # except they didn't tell you the format should be colon connected.
+      # Use a PAT token and not the default token. eventually find this info on bard.
       - name: Create Engine PR
         working-directory: ./engine/src/flutter
         run: |
