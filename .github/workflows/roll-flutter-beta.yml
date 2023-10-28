@@ -148,6 +148,6 @@ jobs:
           git push --no-verify -f origin roll-dart-${DART_HASH}
           gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}" --body "cc @XilaiZhang" --repo flutter/engine --head XilaiZhang/engine:roll-dart-${DART_HASH} --base ${BETA_BRANCH}
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
 
