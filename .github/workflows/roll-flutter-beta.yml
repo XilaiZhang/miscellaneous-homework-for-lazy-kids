@@ -146,7 +146,7 @@ jobs:
           git status
           git remote -v
           git push --no-verify -f origin roll-dart-${DART_HASH}
-          gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}" --body "cc @XilaiZhang" --repo flutter/engine --head XilaiZhang/engine:roll-dart-${DART_HASH} --base ${BETA_BRANCH}
+          gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}." --body "This verifies https://github.com/XilaiZhang/miscellaneous-side-project/blob/master/.github/workflows/roll-flutter-beta.yml Fiiiiiinally works. cc @XilaiZhang" --repo flutter/engine --head XilaiZhang:engine:roll-dart-${DART_HASH} --base ${BETA_BRANCH}
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
 
