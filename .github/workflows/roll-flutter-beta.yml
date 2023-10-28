@@ -125,6 +125,7 @@ jobs:
           pwd
           ls
           dart pub get
+          gclient sync -D
           rm -rf ../../../out/licenses
           dart --enable-asserts lib/main.dart --src ../../.. --out ../../../out/licenses --golden ../../ci/licenses_golden
       - name: Inspect License content change
