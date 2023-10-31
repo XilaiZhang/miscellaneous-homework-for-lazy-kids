@@ -55,9 +55,9 @@ jobs:
           ls
           gclient sync --no-history
           cd src/flutter
-          git remote add upstream git@github.com:flutter/engine.git
+          git remote add upstream https://github.com/flutter/engine.git
           git remote rm origin
-          git remote add origin git@github.com:XilaiZhang/engine.git
+          git remote add origin https://github.com/XilaiZhang/engine.git
       # Remove list of paths which don't have license
       # Keep the paths which license script depends on, and flutter/tool.
       # Keep third_party/skia/bazel due to symlink references third_party/skia/bazel/external/fontations/Cargo.toml
