@@ -58,104 +58,104 @@ jobs:
           git remote add upstream git@github.com:flutter/engine.git
           git remote rm origin
           git remote add origin git@github.com:XilaiZhang/engine.git
-      # # Remove list of paths which don't have license
-      # # Keep the paths which license script depends on, and flutter/tool.
-      # # Keep third_party/skia/bazel due to symlink references third_party/skia/bazel/external/fontations/Cargo.toml
-      # # TODO(xilaizhang): further remove more things in case we hit space limit in the future.
-      # # - name: Remove Paths to Skip
-      # #   working-directory: ./engine/src
-      # #   run: |
-      # #     curl -o skip_path.txt https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/skip_path.txt
-      # #     while read line; do
-      # #       skip_path=$(echo "$line" | sed -e 's/\n$//')
-      # #       rm -rf $skip_path
-      # #     done < skip_path.txt
-      # #     ls
-      # # Engine license script requires SDK version >=3.2.0-0 <4.0.0.
-      # # The highest on stable only goes to 3.1.4.
-      # - name: Setup Dart
-      #   uses: dart-lang/setup-dart@v1
-      #   with:
-      #     sdk: beta
-      # # https://docs.github.com/en/webhooks/webhook-events-and-payloads#push
-      # # github.event.after has the latest dart hash.
-      # # don't use github.event.before since the hash in DEPS might be earlier.
-      # # TODO(xilaizhang): replace dart hash with real dart hash.
-      # - name: Store Dart Hash
+      # Remove list of paths which don't have license
+      # Keep the paths which license script depends on, and flutter/tool.
+      # Keep third_party/skia/bazel due to symlink references third_party/skia/bazel/external/fontations/Cargo.toml
+      # TODO(xilaizhang): further remove more things in case we hit space limit in the future.
+      # - name: Remove Paths to Skip
+      #   working-directory: ./engine/src
       #   run: |
-      #     echo "DART_HASH=077d768accfa3419b8b57cf779cca8228b417faa" >> $GITHUB_ENV
-      # # This is needed for license script to work.
-      # # - name: Remove untracked files
-      # #   working-directory: ./engine/src/flutter
-      # #   run: |
-      # #     git clean -n -d -X
-      # #     git clean -f -d -X
-      # #     git status
-      # # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
-      # # Specify the working directory of a step, otherwise it runs from root directory.
-      # # Note: track the remote branch instead of the fork.
-      # - name: Create Feature Branch
-      #   working-directory: ./engine/src/flutter
-      #   run: |
-      #     git remote -v
-      #     git fetch --all
-      #     git checkout -b roll-dart-${DART_HASH} --track upstream/${BETA_BRANCH}
-      #     git status
-      # # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
-      # - name: Update Dart Hash
-      #   working-directory: ./engine/src/flutter
-      #   run: |
-      #     curl -o replace-hash.dart https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/replace-hash.dart
-      #     dart run replace-hash.dart $DART_HASH DEPS
-      #     cat DEPS | grep 'dart_revision'
-      #     git add DEPS
-      #     git status
-      # # Required for license to work.
-      # - name: Remove untracked files src
-      #   working-directory: ./engine/src/flutter
-      #   run: |
-      #     git clean -n
-      #     git clean -f
-      #     git status
-      # # https://github.com/flutter/engine/tree/main/tools/licenses
-      # # Note: run gclient after updating dart hash.
-      # - name: Run license script
-      #   working-directory: ./engine/src/flutter/tools/licenses
-      #   run: |
-      #     pwd
+      #     curl -o skip_path.txt https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/skip_path.txt
+      #     while read line; do
+      #       skip_path=$(echo "$line" | sed -e 's/\n$//')
+      #       rm -rf $skip_path
+      #     done < skip_path.txt
       #     ls
-      #     dart pub get
-      #     gclient sync -D
-      #     rm -rf ../../../out/licenses
-      #     dart --enable-asserts lib/main.dart --src ../../.. --out ../../../out/licenses --golden ../../ci/licenses_golden
-      # - name: Inspect License content change
-      #   working-directory: ./engine/src/flutter/tools/licenses
-      #   run: |
-      #     cp ../../../out/licenses/* ../../ci/licenses_golden
-      #     git diff
-      # # The fork repo (XilaiZhang/engine) is always up to date with flutter/engine, due to a separate workflow
-      # # https://github.com/XilaiZhang/engine/blob/main/.github/workflows/sync-beta.yml
-      # # Using -f and --no-verify to skip githooks as they fail on "git merge-base FETCH_HEAD HEAD".
-      # # Can not reproduce the githook failures locally, therefore override.
-      # # https://stackoverflow.com/questions/64040150/use-github-cli-to-raise-pr-to-upstream to raise pr on another repo,
-      # # except they didn't tell you the format should be colon connected.
-      # # Use a PAT token and not the default token. eventually find this info on bard.
-      # - name: Create Engine PR
+      # Engine license script requires SDK version >=3.2.0-0 <4.0.0.
+      # The highest on stable only goes to 3.1.4.
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: beta
+      # https://docs.github.com/en/webhooks/webhook-events-and-payloads#push
+      # github.event.after has the latest dart hash.
+      # don't use github.event.before since the hash in DEPS might be earlier.
+      # TODO(xilaizhang): replace dart hash with real dart hash.
+      - name: Store Dart Hash
+        run: |
+          echo "DART_HASH=668bef34e453fc84ab9fa572d917110b51fa88eb" >> $GITHUB_ENV
+      # This is needed for license script to work.
+      # - name: Remove untracked files
       #   working-directory: ./engine/src/flutter
       #   run: |
-      #     git --version
-      #     git config user.email "xilaizhang@g.ucla.edu"
-      #     git config user.name "XilaiZhang"
-      #     git branch
+      #     git clean -n -d -X
+      #     git clean -f -d -X
       #     git status
-      #     git add .
-      #     git status
-      #     git commit --no-verify -m "roll dart to ${DART_HASH}"
-      #     git status
-      #     git remote -v
-      #     git push --no-verify -f origin roll-dart-${DART_HASH}
-      #     gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}." --body "This verifies https://github.com/XilaiZhang/miscellaneous-side-project/blob/master/.github/workflows/roll-flutter-beta.yml Fiiiiiinally works. cc @XilaiZhang" --repo flutter/engine --head XilaiZhang:engine:roll-dart-${DART_HASH} --base ${BETA_BRANCH}
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.PAT }}
+      # https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
+      # Specify the working directory of a step, otherwise it runs from root directory.
+      # Note: track the remote branch instead of the fork.
+      - name: Create Feature Branch
+        working-directory: ./engine/src/flutter
+        run: |
+          git remote -v
+          git fetch --all
+          git checkout -b roll-dart-${DART_HASH} --track upstream/${BETA_BRANCH}
+          git status
+      # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
+      - name: Update Dart Hash
+        working-directory: ./engine/src/flutter
+        run: |
+          curl -o replace-hash.dart https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/replace-hash.dart
+          dart run replace-hash.dart $DART_HASH DEPS
+          cat DEPS | grep 'dart_revision'
+          git add DEPS
+          git status
+      # Required for license to work.
+      - name: Remove untracked files src
+        working-directory: ./engine/src/flutter
+        run: |
+          git clean -n
+          git clean -f
+          git status
+      # https://github.com/flutter/engine/tree/main/tools/licenses
+      # Note: run gclient after updating dart hash.
+      - name: Run license script
+        working-directory: ./engine/src/flutter/tools/licenses
+        run: |
+          pwd
+          ls
+          dart pub get
+          gclient sync -D
+          rm -rf ../../../out/licenses
+          dart --enable-asserts lib/main.dart --src ../../.. --out ../../../out/licenses --golden ../../ci/licenses_golden
+      - name: Inspect License content change
+        working-directory: ./engine/src/flutter/tools/licenses
+        run: |
+          cp ../../../out/licenses/* ../../ci/licenses_golden
+          git diff
+      # The fork repo (XilaiZhang/engine) is always up to date with flutter/engine, due to a separate workflow
+      # https://github.com/XilaiZhang/engine/blob/main/.github/workflows/sync-beta.yml
+      # Using -f and --no-verify to skip githooks as they fail on "git merge-base FETCH_HEAD HEAD".
+      # Can not reproduce the githook failures locally, therefore override.
+      # https://stackoverflow.com/questions/64040150/use-github-cli-to-raise-pr-to-upstream to raise pr on another repo,
+      # except they didn't tell you the format should be colon connected.
+      # Use a PAT token and not the default token. eventually find this info on bard.
+      - name: Create Engine PR
+        working-directory: ./engine/src/flutter
+        run: |
+          git --version
+          git config user.email "xilaizhang@g.ucla.edu"
+          git config user.name "XilaiZhang"
+          git branch
+          git status
+          git add .
+          git status
+          git commit --no-verify -m "roll dart to ${DART_HASH}"
+          git status
+          git remote -v
+          git push --no-verify -f origin roll-dart-${DART_HASH}
+          gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}." --body "This verifies https://github.com/XilaiZhang/miscellaneous-side-project/blob/master/.github/workflows/roll-flutter-beta.yml Fiiiiiinally works. cc @XilaiZhang" --repo flutter/engine --head XilaiZhang:engine:roll-dart-${DART_HASH} --base ${BETA_BRANCH}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
 
