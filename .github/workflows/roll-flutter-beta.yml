@@ -47,17 +47,17 @@ jobs:
           echo '    "safesync_url": "",'                                                    >> .gclient
           echo '  },'                                                                       >> .gclient
           echo ']'                                                                          >> .gclient
-      # # https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment
-      # - name: Gclient sync
-      #   working-directory: ./engine
-      #   run: |
-      #     pwd
-      #     ls
-      #     gclient sync --no-history
-      #     cd src/flutter
-      #     git remote add upstream git@github.com:flutter/engine.git
-      #     git remote rm origin
-      #     git remote add origin git@github.com:XilaiZhang/engine.git
+      # https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment
+      - name: Gclient sync
+        working-directory: ./engine
+        run: |
+          pwd
+          ls
+          gclient sync --no-history
+          cd src/flutter
+          git remote add upstream git@github.com:flutter/engine.git
+          git remote rm origin
+          git remote add origin git@github.com:XilaiZhang/engine.git
       # # Remove list of paths which don't have license
       # # Keep the paths which license script depends on, and flutter/tool.
       # # Keep third_party/skia/bazel due to symlink references third_party/skia/bazel/external/fontations/Cargo.toml
