@@ -48,5 +48,5 @@ jobs:
             flutter engine->framework roll
             - branch: ${{ github.event.inputs.branch }}
             - engine hash: ${{ github.event.inputs.engine_sha }}
-            commit history: ${COMMIT_HISTORY}
+            - commit history: ${{ github.env.COMMIT_HISTORY }}
 
