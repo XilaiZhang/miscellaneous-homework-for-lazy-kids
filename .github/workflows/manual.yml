@@ -32,6 +32,7 @@ jobs:
           repository: flutter/engine
           token: ${{ github.token }}
           path: engine
+          fetch-depth: 100
       - name: Log Engine Commits
         working-directory: ./engine
         run: |
