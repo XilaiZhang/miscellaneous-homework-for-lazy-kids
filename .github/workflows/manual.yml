@@ -39,7 +39,7 @@ jobs:
           git branch
           git log --oneline -10
           git log --no-decorate --oneline $PREV_VERSION..$ENGINE_SHA
-          echo "COMMIT_HISTORY=$(git log --no-decorate --oneline $PREV_VERSION..${{ github.event.inputs.engine_sha }})" >> $GITHUB_ENV
+          echo "COMMIT_HISTORY=\'$(git log --no-decorate --oneline $PREV_VERSION..${{ github.event.inputs.engine_sha }})\'" >> $GITHUB_
         env:
           ENGINE_SHA: ${{ github.event.inputs.engine_sha }}
       # - name: Create Pull Request
