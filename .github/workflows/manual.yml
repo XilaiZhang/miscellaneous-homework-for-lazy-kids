@@ -35,6 +35,9 @@ jobs:
       - name: Log Engine Commits
         working-directory: ./engine
         run: |
+          git remote -v
+          git branch
+          git fetch origin
           echo "COMMIT_HISTORY=$(git log --no-decorate --oneline $PREV_VERSION~...${{ github.event.inputs.engine_sha }})" >> $GITHUB_ENV
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
