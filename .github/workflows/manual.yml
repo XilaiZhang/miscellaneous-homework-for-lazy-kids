@@ -38,7 +38,7 @@ jobs:
         run: |
           git branch
           git log --oneline -10
-          git log --no-decorate --oneline $PREV_VERSION..$ENGINE_SHA | tr '\n' '<br>'
+          git log --no-decorate --oneline $PREV_VERSION..$ENGINE_SHA
           {
             echo 'COMMIT_HISTORY<<EOF'
             git log --no-decorate --oneline $PREV_VERSION..${{ github.event.inputs.engine_sha }}
