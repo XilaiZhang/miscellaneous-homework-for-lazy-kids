@@ -46,7 +46,7 @@ jobs:
           git --version
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          git checkout -b cp-${{ github.event.inputs.cp_commit }} --track origin/${{ github.event.inputs.cp_branch }}
+          git checkout -b ${{ github.event.inputs.cp_branch }} --track origin/${{ github.event.inputs.cp_branch }}
           git cherry-pick ${{ github.event.inputs.cp_commit }}
           git status
       - name: Create PR on CP success
@@ -66,7 +66,7 @@ jobs:
           git --version
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          git checkout -b cp-${{ github.event.inputs.cp_commit }} --track origin/${{ github.event.inputs.cp_branch }}
+          git checkout -b ${{ github.event.inputs.cp_branch }} --track origin/${{ github.event.inputs.cp_branch }}
           git cherry-pick -Xtheirs ${{ github.event.inputs.cp_commit }}
           git status
       - name: Create PR on CP force
