@@ -59,7 +59,7 @@ jobs:
           committer: GitHub <noreply@github.com>
           title: 'Cherry pick ${{ github.event.inputs.cp_commit }} without merge conflict'
           body: |
-            $CP_TEMPLATE
+            ${{ env.CP_TEMPLATE }}
       - name: Force CP
         if: ${{ steps.cp-non-force.conclusion == 'failure' }}
         id: cp-force
@@ -79,5 +79,5 @@ jobs:
           committer: GitHub <noreply@github.com>
           title: 'Force Cherry pick ${{ github.event.inputs.cp_commit }} when merge conflict'
           body: |
-            $CP_WARNING
+            ${{ env.CP_WARNING }}
  
