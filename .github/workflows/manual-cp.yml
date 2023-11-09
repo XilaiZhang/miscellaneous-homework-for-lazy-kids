@@ -50,6 +50,7 @@ jobs:
           git checkout -b ${{ github.event.inputs.cp_branch }} --track origin/${{ github.event.inputs.cp_branch }}
           git cherry-pick ${{ github.event.inputs.cp_commit }}
           git status
+      # use double bracket since market place action does not interpret raw $varialbe.
       - name: Create PR on CP success
         if: ${{ steps.cp-non-force.conclusion == 'success' }}
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
