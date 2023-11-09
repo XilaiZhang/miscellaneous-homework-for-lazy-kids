@@ -66,7 +66,7 @@ jobs:
           git cherry-pick -Xtheirs ${{ github.event.inputs.cp_commit }}
           git status
       - name: Create PR on CP force
-        if: ${{ cp-force.conclusion == 'success' }}
+        if: ${{ steps.cp-force.conclusion == 'success' }}
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
         with:
           token: ${{ secrets.PAT }}
