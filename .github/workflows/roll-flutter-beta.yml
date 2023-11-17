@@ -49,6 +49,7 @@ jobs:
           echo '  },'                                                                       >> .gclient
           echo ']'                                                                          >> .gclient
       # https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment
+      # git remote add origin https://github.com/XilaiZhang/engine.git
       - name: Gclient sync
         working-directory: ./engine
         run: |
@@ -58,7 +59,7 @@ jobs:
           cd src/flutter
           git remote add upstream https://github.com/flutter/engine.git
           git remote rm origin
-          git remote add origin https://github.com/XilaiZhang/engine.git
+          git remote add origin https://github.com/flutter/engine.git
       # Remove list of paths which don't have license
       # Keep the paths which license script depends on, and flutter/tool.
       # Keep third_party/skia/bazel due to symlink references third_party/skia/bazel/external/fontations/Cargo.toml
