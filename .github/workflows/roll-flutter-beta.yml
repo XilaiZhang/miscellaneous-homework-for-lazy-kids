@@ -14,7 +14,8 @@ jobs:
       - name: Get Beta Branch
         run: |
           curl -o beta.json https://raw.githubusercontent.com/flutter/flutter/beta/bin/internal/release-candidate-branch.version
-          echo "BETA_BRANCH=$(cat beta.json | tr -d '\n')" >> $GITHUB_ENV
+          echo "BETA_BRANCH=flutter-3.16-candidate.0" >> $GITHUB_ENV
+      # echo "BETA_BRANCH=$(cat beta.json | tr -d '\n')" >> $GITHUB_ENV
       - name: Print Github Env
         env:
           GITHUB_ENV: ${{ toJson(github.env) }}
