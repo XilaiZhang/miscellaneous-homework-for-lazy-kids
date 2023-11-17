@@ -100,7 +100,7 @@ jobs:
         run: |
           git remote -v
           git fetch --all
-          git checkout -b roll-dart-${DART_HASH} --track upstream/${BETA_BRANCH}
+          git checkout -b ${BETA_BRANCH} --track upstream/${BETA_BRANCH}
           git status
       # Do not grep the old hash. Grep returns exit code 1 and stops the program if no match.
       - name: Update Dart Hash
