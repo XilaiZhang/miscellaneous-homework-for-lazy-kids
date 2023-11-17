@@ -133,6 +133,16 @@ jobs:
         run: |
           cp ../../../out/licenses/* ../../ci/licenses_golden
           git diff
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
+        with:
+          path: engine/src/flutter
+          token: ${{ secrets.PAT }}
+          commit-message: Roll dart to ${{ env.DART_HASH }}
+          committer: GitHub <noreply@github.com>
+          title: 'Roll engine to ${{ env.DART_HASH }}'
+          body: |
+            flutter dart -> engine roll
       # The fork repo (XilaiZhang/engine) is always up to date with flutter/engine, due to a separate workflow
       # https://github.com/XilaiZhang/engine/blob/main/.github/workflows/sync-beta.yml
       # Using -f and --no-verify to skip githooks as they fail on "git merge-base FETCH_HEAD HEAD".
@@ -140,22 +150,24 @@ jobs:
       # https://stackoverflow.com/questions/64040150/use-github-cli-to-raise-pr-to-upstream to raise pr on another repo,
       # except they didn't tell you the format should be colon connected.
       # Use a PAT token and not the default token. eventually find this info on bard.
-      - name: Create Engine PR
-        working-directory: ./engine/src/flutter
-        run: |
-          git --version
-          git config user.email "xilaizhang@g.ucla.edu"
-          git config user.name "XilaiZhang"
-          git branch
-          git status
-          git add .
-          git status
-          git commit --no-verify -m "roll dart to ${DART_HASH}"
-          git status
-          git remote -v
-          git push --no-verify -f origin roll-dart-${DART_HASH}
-          gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}." --body "This verifies https://github.com/XilaiZhang/miscellaneous-side-project/blob/master/.github/workflows/roll-flutter-beta.yml Fiiiiiinally works. cc @XilaiZhang" --repo flutter/engine --head XilaiZhang:engine:roll-dart-${DART_HASH} --base ${BETA_BRANCH}
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+      
+      
+      # - name: Create Engine PR
+      #   working-directory: ./engine/src/flutter
+      #   run: |
+      #     git --version
+      #     git config user.email "xilaizhang@g.ucla.edu"
+      #     git config user.name "XilaiZhang"
+      #     git branch
+      #     git status
+      #     git add .
+      #     git status
+      #     git commit --no-verify -m "roll dart to ${DART_HASH}"
+      #     git status
+      #     git remote -v
+      #     git push --no-verify -f origin roll-dart-${DART_HASH}
+      #     gh pr create --title "[test PR for github actions]roll dart hash to ${DART_HASH}." --body "This verifies https://github.com/XilaiZhang/miscellaneous-side-project/blob/master/.github/workflows/roll-flutter-beta.yml Fiiiiiinally works. cc @XilaiZhang" --repo flutter/engine --head XilaiZhang:engine:roll-dart-${DART_HASH} --base ${BETA_BRANCH}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.PAT }}
 
 
