@@ -138,9 +138,11 @@ jobs:
           cp ../../../out/licenses/* ../../ci/licenses_golden
           git diff
       - name: Disable Hooks
-        working-directory: ./engine/src/flutter
+        working-directory: ./engine/src
         run: |
           git config --global core.hooksPath /dev/null
+          rm -rf .git/hooks
+          rm -rf flutter/.git/hooks
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
         with:
