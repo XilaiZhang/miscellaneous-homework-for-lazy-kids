@@ -43,7 +43,9 @@ jobs:
           echo '    "managed": False,'                                                      >> .gclient
           echo '    "name": "src/flutter",'                                                 >> .gclient
           echo "    \"url\": \"https://github.com/flutter/engine.git@origin/${BETA_BRANCH}\","  >> .gclient
-          echo '    "custom_deps": {},'                                                     >> .gclient
+          echo '    "custom_deps": {'                                                       >> .gclient
+          echo '      "setup_githooks": False,'                                             >> .gclient
+          echo '    },'                                                                     >> .gclient
           echo '    "deps_file": "DEPS",'                                                   >> .gclient
           echo '    "safesync_url": "",'                                                    >> .gclient
           echo '  },'                                                                       >> .gclient
