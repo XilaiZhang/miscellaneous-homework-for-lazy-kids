@@ -36,6 +36,7 @@ jobs:
       # use same name when checking out branch, since the marketplace action does a hard reset.
       - name: Attempt CP
         id: attempt-cp
+        working-directory: ./flutter
         run: |
           git --version
           git config user.name "GitHub Actions Bot"
@@ -51,6 +52,7 @@ jobs:
         if: ${{ steps.attempt-cp.conclusion == 'success' }}
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
         with:
+          path: flutter
           token: ${{ github.token }}
           commit-message: automated cherry pick
           committer: GitHub <noreply@github.com>
