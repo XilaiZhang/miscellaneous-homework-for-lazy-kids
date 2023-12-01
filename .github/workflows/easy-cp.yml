@@ -1,9 +1,7 @@
 name: Cherry-pick Labeled PR to Release Branch
 
 on:
-  pull_request:
-    branches: master
-    types: [labeled]
+  workflow_dispatch
 
 permissions: write-all
 
