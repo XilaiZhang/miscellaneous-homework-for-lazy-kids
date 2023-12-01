@@ -41,6 +41,7 @@ jobs:
           git --version
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
+          git fetch origin master
           git checkout -b cp-$COMMIT_SHA --track origin/$RELEASE_BRANCH
           git cherry-pick $COMMIT_SHA
           git status
