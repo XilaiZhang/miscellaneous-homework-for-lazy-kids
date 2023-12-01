@@ -65,7 +65,7 @@ jobs:
           FAILURE_MSG = "An automated cherry pick for this PR was attempted due to the cherry pick label added.<br>"
           FAILURE_MSG += "However, the cherry pick failed (potentially due to a merge confclit).<br>"
           FAILURE_MSG += "You will need to create the cherry pick PR pull request manually and add chillers as a reviewer.<br>"
-          gh pr comment 3305 -R flutter/cocoon -b $FAILURE_MSG
+          gh pr comment 3305 -R flutter/cocoon -b "${FAILURE_MSG}"
 
 
 
