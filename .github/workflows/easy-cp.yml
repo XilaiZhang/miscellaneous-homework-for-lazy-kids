@@ -60,7 +60,7 @@ jobs:
           title: '[$RELEASE_BRANCH-cp] Cherry pick ${{ github.event.pull_request.title }}'
           body-path: ./github/workflows/cp_template.yml
       - name: Leave Comment on CP failure
-        if: ${{ steps.attempt-cp.conclusion == 'failure' }}
+        if: ${{ failure() && steps.attempt-cp.conclusion == 'failure' }}
         run: |
           FAILURE_MSG = "An automated cherry pick for this PR was attempted due to the cherry pick label added.<br>"
           FAILURE_MSG += "However, the cherry pick failed (potentially due to a merge confclit).<br>"
