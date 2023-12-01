@@ -41,7 +41,7 @@ jobs:
           git --version
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          git checkout -b $RELEASE_BRANCH --track origin/$RELEASE_BRANCH
+          git checkout -b cp-$COMMIT_SHA --track origin/$RELEASE_BRANCH
           git cherry-pick $COMMIT_SHA
           git status
       # TODO(xilaizhang): remove this on PR submission
