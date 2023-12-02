@@ -32,6 +32,8 @@ jobs:
           repository: flutter/flutter
           token: ${{ github.token }}
           path: flutter
+          ref: master
+          fetch-depth: 0
       # use same name when checking out branch, since the marketplace action does a hard reset.
       - name: Attempt CP
         id: attempt-cp
