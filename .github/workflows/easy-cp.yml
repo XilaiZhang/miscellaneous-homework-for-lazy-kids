@@ -40,7 +40,7 @@ jobs:
           git --version
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          git fetch origin master
+          git fetch origin $RELEASE_BRANCH
           git checkout -b $RELEASE_BRANCH --track origin/$RELEASE_BRANCH
           git cherry-pick $COMMIT_SHA
           git status
