@@ -60,7 +60,7 @@ jobs:
           base: ${{ env.RELEASE_BRANCH }}
           branch: cp-${{ env.RELEASE_BRANCH }}
           path: flutter
-          token: ${{ github.token }}
+          token: ${{ secrets.PAT }}
           commit-message: automated cherry pick
           committer: GitHub <noreply@github.com>
           title: '[$RELEASE_BRANCH-cp] Cherry pick ${{ github.event.pull_request.title }}'
