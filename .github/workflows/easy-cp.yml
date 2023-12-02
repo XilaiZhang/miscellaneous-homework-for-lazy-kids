@@ -48,7 +48,7 @@ jobs:
       # TODO(xilaizhang): remove this on PR submission
       - name: Get CP Template
         run: |
-          curl -o flutter/.github/workflows/cp_template.yaml https://cs.opensource.google/flutter/flutter/+/master:.github/ISSUE_TEMPLATE/7_cherry_pick.yml
+          curl -o flutter/.github/workflows/cp_template.yml https://cs.opensource.google/flutter/flutter/+/master:.github/ISSUE_TEMPLATE/7_cherry_pick.yml
       - name: Create PR on CP success
         if: ${{ steps.attempt-cp.conclusion == 'success' }}
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
