@@ -29,7 +29,6 @@ jobs:
       - name: Checkout Flutter Repo
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
-          ref: ${{ env.RELEASE_BRANCH }}
           repository: flutter/flutter
           token: ${{ github.token }}
           path: flutter
