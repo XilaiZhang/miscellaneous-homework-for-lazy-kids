@@ -59,6 +59,7 @@ jobs:
           committer: GitHub <noreply@github.com>
           title: '[$RELEASE_BRANCH-cp] Cherry pick ${{ github.event.pull_request.title }}'
           body-path: ./github/workflows/cp_template.yml
+      # Need PAT Token to comment. Otherwise throws error "GraphQL: Resource not accessible by integration (addComment)"
       - name: Leave Comment on CP failure
         if: ${{ failure() && steps.attempt-cp.conclusion == 'failure' }}
         run: |
@@ -67,7 +68,7 @@ jobs:
           FAILURE_MSG+="You will need to create the cherry pick PR pull request manually and add chillers as a reviewer.<br>"
           gh pr comment 3305 -R flutter/cocoon -b "${FAILURE_MSG}"
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
 
 
