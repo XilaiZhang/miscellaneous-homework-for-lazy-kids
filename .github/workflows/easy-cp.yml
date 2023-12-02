@@ -55,6 +55,7 @@ jobs:
         if: ${{ steps.attempt-cp.conclusion == 'success' }}
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
         with:
+          base: ${{ env.RELEASE_BRANCH }}
           path: flutter
           token: ${{ github.token }}
           commit-message: automated cherry pick
