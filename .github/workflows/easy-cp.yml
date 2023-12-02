@@ -60,7 +60,7 @@ jobs:
           commit-message: automated cherry pick
           committer: GitHub <noreply@github.com>
           title: '[$RELEASE_BRANCH-cp] Cherry pick ${{ github.event.pull_request.title }}'
-          body-path: flutter/github/workflows/cp_template.yml
+          body-path: .github/workflows/cp_template.yml
       # Need PAT Token to comment. Otherwise throws error "GraphQL: Resource not accessible by integration (addComment)"
       - name: Leave Comment on CP failure
         if: ${{ failure() && steps.attempt-cp.conclusion == 'failure' }}
