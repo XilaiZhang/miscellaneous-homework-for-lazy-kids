@@ -53,7 +53,7 @@ jobs:
         run: |
           pwd
           mkdir tmp
-          curl -o tmp/cp_template.yml https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/template/cherrypick.md
+          curl -o .github/PULL_REQUEST_CP_TEMPLATE https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/template/cherrypick.md
       - name: Create PR on CP success
         if: ${{ steps.attempt-cp.conclusion == 'success' }}
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
@@ -64,7 +64,7 @@ jobs:
           commit-message: automated cherry pick
           committer: GitHub <noreply@github.com>
           title: '[${{ env.RELEASE_BRANCH }}-cp] Cherry pick ${{ github.event.pull_request.title }}'
-          body-path: ~/tmp/cp_template.yml
+          body-path: .github/PULL_REQUEST_CP_TEMPLATE
       # Need PAT Token to comment. Otherwise throws error "GraphQL: Resource not accessible by integration (addComment)"
       - name: Leave Comment on CP failure
         if: ${{ failure() && steps.attempt-cp.conclusion == 'failure' }}
