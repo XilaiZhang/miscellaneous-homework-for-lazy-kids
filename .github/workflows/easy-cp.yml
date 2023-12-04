@@ -50,12 +50,13 @@ jobs:
       # TODO(xilaizhang): move cp template to flutter/flutter.
       # https://cs.opensource.google/flutter/flutter/+/master:.github/ISSUE_TEMPLATE/7_cherry_pick.yml
       - name: Get CP Template
+        id: download-template
         run: |
           pwd
           mkdir tmp
           curl -o flutter/.github/PULL_REQUEST_CP_TEMPLATE https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/template/cherrypick.md
       - name: Create PR on CP success
-        if: ${{ steps.attempt-cp.conclusion == 'success' }}
+        if: ${{ steps.attempt-cp.conclusion == 'success' && steps.download-template.conclusion == 'success' }}
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
         with:
           base: ${{ env.RELEASE_BRANCH }}
