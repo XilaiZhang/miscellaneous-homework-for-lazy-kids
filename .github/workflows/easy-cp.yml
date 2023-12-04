@@ -63,7 +63,7 @@ jobs:
           token: ${{ secrets.PAT }}
           commit-message: automated cherry pick
           committer: GitHub <noreply@github.com>
-          title: '[$RELEASE_BRANCH-cp] Cherry pick ${{ github.event.pull_request.title }}'
+          title: '[${{ env.RELEASE_BRANCH }}-cp] Cherry pick ${{ github.event.pull_request.title }}'
           body-path: ~/tmp/cp_template.yml
       # Need PAT Token to comment. Otherwise throws error "GraphQL: Resource not accessible by integration (addComment)"
       - name: Leave Comment on CP failure
