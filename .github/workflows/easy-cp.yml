@@ -65,6 +65,7 @@ jobs:
           committer: GitHub <noreply@github.com>
           title: '[${{ env.RELEASE_BRANCH }}-cp] Cherry pick ${{ github.event.pull_request.title }}'
           body-path: .github/PULL_REQUEST_CP_TEMPLATE
+          body: '**This PR cherry picks ${{ env.COMMIT_SHA }} into ${{ env.RELEASE_BRANCH }}.**'
       # Need PAT Token to comment. Otherwise throws error "GraphQL: Resource not accessible by integration (addComment)"
       - name: Leave Comment on CP failure
         if: ${{ failure() && steps.attempt-cp.conclusion == 'failure' }}
