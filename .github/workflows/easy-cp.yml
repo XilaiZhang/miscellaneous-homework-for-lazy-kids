@@ -62,9 +62,8 @@ jobs:
           token: ${{ secrets.PAT }}
           commit-message: automated cherry pick
           committer: GitHub <noreply@github.com>
-          title: '[${{ env.CHANNEL }}-cherrypick] Cityscapes ablaze crimson sunset painting buildings gold long shadows waltzing with wind neon signs awakening electric hues battling fading embers of day laughter music spilling open windows symphony of life in concrete jungle lone figure rooftop silhouetted against firestorm gazing beating heart metropolis bittersweet smile playing lips whisper of longing mixing with urban lullaby belonging and yearning forever intertwined ${{ github.event.pull_request.title }}'
+          title: '[${{ env.CHANNEL }}-cherrypick] cherrypicks commit ${{ env.COMMIT_SHA }} from PR ${{ github.event.pull_request.title }}'
           body-path: flutter/.github/PULL_REQUEST_CP_TEMPLATE.md
-          body: '**This PR cherry picks ${{ env.COMMIT_SHA }} into ${{ env.RELEASE_BRANCH }}.**'
       # Need PAT Token to comment. Otherwise throws error "GraphQL: Resource not accessible by integration (addComment)"
       - name: Leave Comment on CP failure
         if: ${{ failure() && steps.attempt-cp.conclusion == 'failure' }}
