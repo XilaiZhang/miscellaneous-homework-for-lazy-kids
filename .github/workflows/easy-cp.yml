@@ -64,6 +64,8 @@ jobs:
           token: ${{ secrets.PAT }}
           commit-message: automated cherry pick
           committer: GitHub <noreply@github.com>
+          labels: |
+            cp: review
           title: '[${{ env.CHANNEL }}-cherrypick] cherrypicks commit ${{ env.COMMIT_SHA }} from PR ${{ github.event.pull_request.title }}'
           body-path: flutter/.github/PULL_REQUEST_CP_TEMPLATE.md
       # Need PAT Token to comment. Otherwise throws error "GraphQL: Resource not accessible by integration (addComment)"
