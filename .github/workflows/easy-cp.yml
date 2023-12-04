@@ -51,6 +51,7 @@ jobs:
       # https://cs.opensource.google/flutter/flutter/+/master:.github/ISSUE_TEMPLATE/7_cherry_pick.yml
       - name: Get CP Template
         run: |
+          mkdir tmp
           curl -o tmp/cp_template.yml https://raw.githubusercontent.com/XilaiZhang/miscellaneous-side-project/master/.github/workflows/template/cherrypick.md
       - name: Create PR on CP success
         if: ${{ steps.attempt-cp.conclusion == 'success' }}
