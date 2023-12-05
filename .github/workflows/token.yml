@@ -5,10 +5,16 @@ jobs:
   minimal-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Create PR with plain token
-        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
-        with:
-          token: ${{ github.token }}
-          commit-message: blah
-          committer: GitHub <noreply@github.com>
-          title: 'blah'
+      # - name: Create PR with plain token
+      #   uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
+      #   with:
+      #     token: ${{ github.token }}
+      #     commit-message: blah
+      #     committer: GitHub <noreply@github.com>
+      #     title: 'blah'
+      - name: leave comment plain token
+        run: |
+          FAILURE_MSG="test message"
+          gh pr comment 3305 -R flutter/cocoon -b "${FAILURE_MSG}"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
