@@ -1,6 +1,8 @@
 on: 
   workflow_dispatch
 
+permissions: write-all
+
 jobs:
   minimal-job:
     runs-on: ubuntu-latest
@@ -15,6 +17,6 @@ jobs:
       - name: leave comment plain token
         run: |
           FAILURE_MSG="test message"
-          gh pr comment 3305 -R flutter/cocoon -b "${FAILURE_MSG}"
+          gh pr comment 6 -R XilaiZhang/miscellaneous-side-project -b "${FAILURE_MSG}"
         env:
           GITHUB_TOKEN: ${{ github.token }}
