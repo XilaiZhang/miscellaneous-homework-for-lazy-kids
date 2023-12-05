@@ -19,7 +19,7 @@ jobs:
           echo "CHANNEL=beta" >> $GITHUB_ENV
       - name: Get Release Candidate Branch
         run: |
-          RELEASE_BRANCH=$(curl -o version.json https://raw.githubusercontent.com/flutter/flutter/$CHANNEL/bin/internal/release-candidate-branch.version)
+          RELEASE_BRANCH=$(curl https://raw.githubusercontent.com/flutter/flutter/$CHANNEL/bin/internal/release-candidate-branch.version)
           echo "RELEASE_BRANCH=$(echo $RELEASE_BRANCH | tr -d '\n')" >> $GITHUB_ENV
       - name: Get Cherry Pick PR
         run: |
