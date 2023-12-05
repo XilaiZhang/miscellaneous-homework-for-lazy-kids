@@ -20,7 +20,7 @@ jobs:
       - name: Get Release Candidate Branch
         run: |
           RELEASE_BRANCH=$(curl -o version.json https://raw.githubusercontent.com/flutter/flutter/$CHANNEL/bin/internal/release-candidate-branch.version)
-          export RELEASE_BRANCH=$(echo $RELEASE_BRANCH | tr -d '\n')
+          echo "RELEASE_BRANCH=$(echo $RELEASE_BRANCH | tr -d '\n')" >> $GITHUB_ENV
       - name: Get Cherry Pick PR
         run: |
           # echo "COMMIT_SHA=$(echo ${{ github.event.pull_request.merge_commit_sha }})" >> $GITHUB_ENV
