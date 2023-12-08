@@ -49,7 +49,7 @@ jobs:
           git cherry-pick $COMMIT_SHA
       # fatal: unable to access 'https://github.com/flutter/flutter/': The requested URL returned error: 403
       - name: Create PR on CP success
-        if: ${{ steps.attempt-cp.conclusion == 'success' && steps.download-template.conclusion == 'success' }}
+        if: ${{ steps.attempt-cp.conclusion == 'success' }}
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
         with:
           base: ${{ env.RELEASE_BRANCH }}
