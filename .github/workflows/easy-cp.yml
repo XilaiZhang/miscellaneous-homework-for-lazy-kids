@@ -61,7 +61,7 @@ jobs:
           labels: |
             cp: review
           title: '[${{ env.CHANNEL }}-cherrypick] cherrypicks commit ${{ env.COMMIT_SHA }} from PR ${{ github.event.pull_request.title }}'
-          body-path: flutter/.github/PR_TEMPLATE/PULL_REQUEST_CP_TEMPLATE.md
+          body-path: .github/PR_TEMPLATE/PULL_REQUEST_CP_TEMPLATE.md
       # Need PAT Token to comment. Otherwise throws error "GraphQL: Resource not accessible by integration (addComment)"
       - name: Leave Comment on CP failure
         if: ${{ failure() && steps.attempt-cp.conclusion == 'failure' }}
