@@ -24,7 +24,8 @@ jobs:
       - name: Get Cherry Pick PR
         run: |
           # echo "COMMIT_SHA=$(echo ${{ github.event.pull_request.merge_commit_sha }})" >> $GITHUB_ENV
-          echo "COMMIT_SHA=7d9010c3578338bc850d66c315bd6086f3d3dc9a" >> $GITHUB_ENV
+          # echo "COMMIT_SHA=7d9010c3578338bc850d66c315bd6086f3d3dc9a" >> $GITHUB_ENV
+          echo "COMMIT_SHA=126606f9f30fb589835797b205c38244d71efd53" >> $GITHUB_ENV
       - name: Checkout Flutter Repo
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
