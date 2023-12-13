@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Comment on PR
         run: |
-          FAILURE_MSG="CP workflow is triggered"
-          gh pr comment ${{ github.event.pull_request.number }} -R XilaiZhang/miscellaneous-side-project -b "${FAILURE_MSG}"
+          comment="I am so confused"
+          gh pr comment ${{ github.event.pull_request.number }} -R XilaiZhang/miscellaneous-side-project -b "${comment}"
         env:
           GH_TOKEN: ${{ secrets.PAT }}
