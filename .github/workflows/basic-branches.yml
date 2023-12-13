@@ -1,0 +1,18 @@
+on:
+  pull_request:
+    branches: 
+      - main
+    types: [labeled]
+
+jobs:
+  verify_logic:
+    name: comment-if-triggered
+    runs-on: ubuntu-latest
+    if: |
+      (github.event.label.name == format('cp{0} beta', ':') || github.event.label.name == format('cp{0} stable', ':')) &&
+      (github.event.pull_request.merged == true)
+    steps:
+      - name: Comment on PR
+        run: |
+          FAILURE_MSG="CP workflow is triggered"
+          gh pr comment ${{ github.event.pull_request.number }} -R flutter/flutter -b "${FAILURE_MSG}"
