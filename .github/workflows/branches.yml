@@ -15,3 +15,5 @@ jobs:
         run: |
           FAILURE_MSG="CP workflow is triggered"
           gh pr comment ${{ github.event.pull_request.number }} -R flutter/flutter -b "${FAILURE_MSG}"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
