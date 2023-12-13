@@ -3,6 +3,8 @@ on:
     branches: master
     types: [labeled]
 
+permissions: write-all
+
 jobs:
   verify_logic:
     name: comment-if-triggered
