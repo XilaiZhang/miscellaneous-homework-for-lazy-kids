@@ -6,8 +6,8 @@ on:
 permissions: write-all
 
 jobs:
-  verify_logic:
-    name: comment-if-triggered
+  weird:
+    name: I-am-so-confused
     runs-on: ubuntu-latest
     if: |
       (github.event.label.name == format('cp{0} beta', ':') || github.event.label.name == format('cp{0} stable', ':')) &&
