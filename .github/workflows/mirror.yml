@@ -1,17 +1,28 @@
+
+# Copyright 2013 The Flutter Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# Mirror master to main branches in the flutter repository.
 on:
   push:
     branches:
-      - cp-2
+      - 'master'
+
+# Declare default permissions as read only.
+permissions: read-all
 
 jobs:
   mirror_job:
+    permissions:
+      pull-requests: write
     runs-on: ubuntu-latest
-    name: Mirror SOURCE_BRANCH_NAME branch to DESTINATION_BRANCH_NAME branch
+    name: Mirror master branch to cp branch
     steps:
-    - name: Mirror action step
-      id: mirror
-      uses: google/mirror-branch-action@v1.0
-      with:
-        github-token: ${{ secrets.NOT_EXIST }}
-        source: cp-2
-        dest: master
+      - name: Mirror action step
+        id: mirror
+        uses: google/mirror-branch-action@30c52ee21f5d3bd7fb28b95501c11aae7f17eebb
+        with:
+          github-token: ${{ secrets.NOT_EXIST_TOKEN }}
+          source: 'master'
+          dest: 'cp-2'
