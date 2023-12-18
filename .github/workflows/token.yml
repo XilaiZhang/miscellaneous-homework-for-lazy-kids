@@ -7,13 +7,22 @@ jobs:
   minimal-job:
     runs-on: ubuntu-latest
     steps:
-      # - name: Create PR with plain token
-      #   uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
-      #   with:
-      #     token: ${{ github.token }}
-      #     commit-message: blah
-      #     committer: GitHub <noreply@github.com>
-      #     title: 'blah'
+      - name: Checkout current Repo
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          repository: XilaiZhang/miscellaneous-side-project
+          token: ${{ github.token }}
+      - name: Write some randome file
+        run:
+          touch empty.json
+      - name: Create PR with plain token
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
+        with:
+          token: ${{ secrets.NON_EXIST_TOKEN}}
+          commit-message: blah
+          committer: GitHub <noreply@github.com>
+          title: 'blah'
       - name: leave comment plain token
         run: |
           FAILURE_MSG="test message"
