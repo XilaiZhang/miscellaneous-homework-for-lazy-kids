@@ -23,6 +23,6 @@ jobs:
         id: mirror
         uses: google/mirror-branch-action@30c52ee21f5d3bd7fb28b95501c11aae7f17eebb
         with:
-          github-token: ${{ secrets.NOT_EXIST_TOKEN }}
+          github-token: ${{ secrets.PAT }}
           source: 'master'
           dest: 'cp-2'
