@@ -24,11 +24,5 @@ jobs:
           token: ${{ secrets.PAT}}
           commit-message: blah
           committer: GitHub <noreply@github.com>
-          title: 'blah'
+          title: 'github actions test'
           path: flutter
-      - name: leave comment plain token
-        run: |
-          FAILURE_MSG="test message"
-          gh pr comment 6 -R XilaiZhang/miscellaneous-side-project -b "${FAILURE_MSG}"
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
