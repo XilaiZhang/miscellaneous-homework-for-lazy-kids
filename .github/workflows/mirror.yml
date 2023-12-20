@@ -5,9 +5,7 @@
 
 # Mirror master to main branches in the flutter repository.
 on:
-  push:
-    branches:
-      - 'master'
+  workflow_dispatch
 
 # Declare default permissions as read only.
 permissions: read-all
