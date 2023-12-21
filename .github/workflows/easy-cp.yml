@@ -45,7 +45,7 @@ jobs:
           git config user.email "<>"
           git fetch origin $RELEASE_BRANCH
           git fetch origin master
-          git checkout -b $RELEASE_BRANCH --track origin/$RELEASE_BRANCH
+          git checkout -b cp-${CHANNEL}-${COMMIT_SHA} --track origin/$RELEASE_BRANCH
           git cherry-pick $COMMIT_SHA
       - name: Get CP Template
         run: |
