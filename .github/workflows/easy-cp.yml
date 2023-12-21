@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           repository: flutter/flutter
-          token: ${{ github.token }}
+          token: ${{ secrets.PAT }}
           path: flutter
           ref: master
           # Checkout all history commits on master branch, so that the cp commit is a known object
