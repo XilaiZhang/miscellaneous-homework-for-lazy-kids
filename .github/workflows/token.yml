@@ -21,8 +21,10 @@ jobs:
       - name: Create PR with plain token
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
         with:
-          token: ${{ secrets.PAT}}
+          path: flutter
+          token: ${{ secrets.PAT }}
+          labels: |
+            cp: review
           commit-message: blah
           committer: GitHub <noreply@github.com>
           title: 'github actions test'
-          path: flutter
