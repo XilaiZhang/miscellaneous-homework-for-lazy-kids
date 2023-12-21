@@ -53,18 +53,27 @@ jobs:
       # fatal: unable to access 'https://github.com/flutter/flutter/': The requested URL returned error: 403
       - name: Create PR on CP success
         if: ${{ steps.attempt-cp.conclusion == 'success' }}
-        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
-        with:
-          base: ${{ env.RELEASE_BRANCH }}
-          branch: cp-${{ env.CHANNEL }}-${{ env.COMMIT_SHA }}
-          path: flutter
-          token: ${{ secrets.PAT }}
-          commit-message: automated cherry pick
-          committer: GitHub <noreply@github.com>
-          labels: |
-            cp: review
-          title: '[${{ env.CHANNEL }}-cherrypick] cherrypicks commit ${{ env.COMMIT_SHA }} from PR ${{ github.event.pull_request.title }}'
-          body-path: PULL_REQUEST_CP_TEMPLATE.md
+        working-directory: ./flutter
+        run: |
+          git push -u origin cp-${CHANNEL}-${COMMIT_SHA}
+          gh pr create --title "[cp-${CHANNEL}]${PR_TITLE}" --template ../PULL_REQUEST_CP_TEMPLATE.md --base ${RELEASE_BRANCH} --label "cp: review"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+          PR_TITLE: 'some random title'
+      # - name: Create PR on CP success
+      #   if: ${{ steps.attempt-cp.conclusion == 'success' }}
+      #   uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
+      #   with:
+      #     base: ${{ env.RELEASE_BRANCH }}
+      #     branch: cp-${{ env.CHANNEL }}-${{ env.COMMIT_SHA }}
+      #     path: flutter
+      #     token: ${{ secrets.PAT }}
+      #     commit-message: automated cherry pick
+      #     committer: GitHub <noreply@github.com>
+      #     labels: |
+      #       cp: review
+      #     title: '[${{ env.CHANNEL }}-cherrypick] cherrypicks commit ${{ env.COMMIT_SHA }} from PR ${{ github.event.pull_request.title }}'
+      #     body-path: PULL_REQUEST_CP_TEMPLATE.md
       # Need PAT Token to comment. Otherwise throws error "GraphQL: Resource not accessible by integration (addComment)"
       - name: Leave Comment on CP failure
         if: ${{ failure() && steps.attempt-cp.conclusion == 'failure' }}
