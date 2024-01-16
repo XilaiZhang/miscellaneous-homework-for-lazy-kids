@@ -60,8 +60,7 @@ jobs:
         working-directory: ./flutter
         run: |
           git push -u https://${GITHUB_TOKEN}@github.com/XilaiZhang/flutter cp-${CHANNEL}-${COMMIT_SHA}
-          gh pr create --title "[cp-${CHANNEL}]${PR_TITLE}" --body-file ../PULL_REQUEST_CP_TEMPLATE.md --base ${RELEASE_BRANCH} --label "cp: review" --repo flutter/flutter 
-        # --head XilaiZhang:cp-${CHANNEL}-${COMMIT_SHA}
+          gh pr create --title "[cp-${CHANNEL}]${PR_TITLE}" --body-file ../PULL_REQUEST_CP_TEMPLATE.md --base ${RELEASE_BRANCH} --label "cp: review" --repo flutter/flutter --head XilaiZhang:cp-${CHANNEL}-${COMMIT_SHA}
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
           PR_TITLE: 'some random title'
