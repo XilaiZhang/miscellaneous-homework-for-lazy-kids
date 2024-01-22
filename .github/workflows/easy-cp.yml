@@ -1,17 +1,20 @@
 name: Cherry-pick Labeled PR to Release Branch
 
+# on:
+#   workflow_dispatch
 on:
-  workflow_dispatch
-
+  pull_request:
+    branches: master
+    types: [labeled]
 permissions: write-all
 
 jobs:
   cherrypick_to_release:
     name: cherrypick_to_release
     runs-on: ubuntu-latest
-    # if: |
-    #   (github.event.label.name == format('cp{0} beta', ':') || github.event.label.name == format('cp{0} beta', ':')) &&
-    #   (github.event.pull_request.merged == true)
+    if: |
+      (github.event.label.name == format('cp{0} beta', ':') || github.event.label.name == format('cp{0} beta', ':')) &&
+      (github.event.pull_request.merged == true)
     steps:
       - name: Get Release Channel
         run: |
