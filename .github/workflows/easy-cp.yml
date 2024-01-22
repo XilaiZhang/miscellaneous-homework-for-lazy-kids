@@ -60,10 +60,10 @@ jobs:
         if: ${{ steps.attempt-cp.conclusion == 'success' }}
         working-directory: ./flutter
         run: |
-          git push -u https://${{ env.GITHUB_TOKEN }}@github.com/XilaiZhang/flutter cp-${CHANNEL}-${COMMIT_SHA}
+          git push -u https://${{ env.GITHUB_TOKEN }}@github.com/flutteractionsbot/flutter cp-${CHANNEL}-${COMMIT_SHA}
           gh pr create --title "[cp-${CHANNEL}]${PR_TITLE}" --body-file ../PULL_REQUEST_CP_TEMPLATE.md --base ${RELEASE_BRANCH} --label "cp: review" --repo flutter/flutter --head XilaiZhang:cp-${CHANNEL}-${COMMIT_SHA}
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_BOT_PAT }}
           PR_TITLE: 'some random title'
       # - name: Create PR on CP success
       #   if: ${{ steps.attempt-cp.conclusion == 'success' }}
