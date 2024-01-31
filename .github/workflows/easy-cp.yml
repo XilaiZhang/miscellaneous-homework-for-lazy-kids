@@ -1,12 +1,12 @@
 name: Cherry-pick Labeled PR to Release Branch
 
-# on:
-#   workflow_dispatch
 on:
-  pull_request_target:
-    branches: master
-    types: [labeled]
-permissions: write-all
+  workflow_dispatch
+# on:
+#   pull_request_target:
+#     branches: master
+#     types: [labeled]
+# permissions: write-all
 
 jobs:
   cherrypick_to_release:
