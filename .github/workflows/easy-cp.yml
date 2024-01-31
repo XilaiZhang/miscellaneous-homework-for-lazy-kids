@@ -35,7 +35,7 @@ jobs:
       - name: Checkout Flutter Repo
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
-          repository: flutteractionsbot/flutter
+          repository: XilaiZhang/flutter
           # token: ${{ secrets.PAT }}
           path: flutter
           ref: master
@@ -64,8 +64,8 @@ jobs:
         working-directory: ./flutter
         id: create-pr
         run: |
-          git push -u https://${{ env.GITHUB_TOKEN }}@github.com/flutteractionsbot/flutter cp-6
-          echo "gh pr create --title "[cp-${CHANNEL}]${PR_TITLE}" --body-file ../PULL_REQUEST_CP_TEMPLATE.md --base ${RELEASE_BRANCH} --label "cp: review" --repo flutter/flutter --head flutteractionsbot:cp-6" >> $GITHUB_OUTPUT
+          git push -u https://${{ env.GITHUB_TOKEN }}@github.com/XilaiZhang/flutter cp-6
+          echo "gh pr create --title "[cp-${CHANNEL}]${PR_TITLE}" --body-file ../PULL_REQUEST_CP_TEMPLATE.md --base ${RELEASE_BRANCH} --label "cp: review" --repo flutter/flutter --head XilaiZhang:cp-6" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_BOT_PAT }}
           PR_TITLE: 'some random title'
