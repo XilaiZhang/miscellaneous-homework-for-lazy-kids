@@ -67,7 +67,7 @@ jobs:
           git push -u https://${{ env.GITHUB_TOKEN }}@github.com/XilaiZhang/flutter cp-6
           echo `gh pr create --title "[cp-${CHANNEL}]${PR_TITLE}" --body-file ../PULL_REQUEST_CP_TEMPLATE.md --base ${RELEASE_BRANCH} --label "cp: review" --repo flutter/flutter --head XilaiZhang:cp-6` >> $GITHUB_OUTPUT
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_BOT_PAT }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
           PR_TITLE: 'some random title'
       - name: Get output
         run: |
