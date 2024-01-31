@@ -62,12 +62,16 @@ jobs:
       - name: Create PR on CP success
         if: ${{ steps.attempt-cp.conclusion == 'success' }}
         working-directory: ./flutter
+        id: create-pr
         run: |
           git push -u https://${{ env.GITHUB_TOKEN }}@github.com/flutteractionsbot/flutter cp-5
-          gh pr create --title "[cp-${CHANNEL}]${PR_TITLE}" --body-file ../PULL_REQUEST_CP_TEMPLATE.md --base ${RELEASE_BRANCH} --label "cp: review" --repo flutter/flutter --head flutteractionsbot:cp-5
+          echo "gh pr create --title "[cp-${CHANNEL}]${PR_TITLE}" --body-file ../PULL_REQUEST_CP_TEMPLATE.md --base ${RELEASE_BRANCH} --label "cp: review" --repo flutter/flutter --head flutteractionsbot:cp-5" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_BOT_PAT }}
           PR_TITLE: 'some random title'
+      - name: Get output
+        run: |
+          echo ${{ join(steps.run_tests.outputs.*, '\n') }}
       # - name: Create PR on CP success
       #   if: ${{ steps.attempt-cp.conclusion == 'success' }}
       #   uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
