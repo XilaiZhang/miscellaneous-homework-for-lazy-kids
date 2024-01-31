@@ -53,7 +53,7 @@ jobs:
           git remote add upstream https://github.com/flutter/flutter.git
           git fetch upstream $RELEASE_BRANCH
           git fetch upstream master
-          git checkout -b cp-5 --track upstream/$RELEASE_BRANCH
+          git checkout -b cp-6 --track upstream/$RELEASE_BRANCH
           git cherry-pick $COMMIT_SHA
       - name: Get CP Template
         run: |
@@ -64,8 +64,8 @@ jobs:
         working-directory: ./flutter
         id: create-pr
         run: |
-          git push -u https://${{ env.GITHUB_TOKEN }}@github.com/flutteractionsbot/flutter cp-5
-          echo "gh pr create --title "[cp-${CHANNEL}]${PR_TITLE}" --body-file ../PULL_REQUEST_CP_TEMPLATE.md --base ${RELEASE_BRANCH} --label "cp: review" --repo flutter/flutter --head flutteractionsbot:cp-5" >> $GITHUB_OUTPUT
+          git push -u https://${{ env.GITHUB_TOKEN }}@github.com/flutteractionsbot/flutter cp-6
+          echo "gh pr create --title "[cp-${CHANNEL}]${PR_TITLE}" --body-file ../PULL_REQUEST_CP_TEMPLATE.md --base ${RELEASE_BRANCH} --label "cp: review" --repo flutter/flutter --head flutteractionsbot:cp-6" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_BOT_PAT }}
           PR_TITLE: 'some random title'
