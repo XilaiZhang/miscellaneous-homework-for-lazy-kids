@@ -74,6 +74,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
           PR_TITLE: 'some random title'
       - name: Leave Comment on CP success
+        if: ${{ steps.create-pr.conclusion == 'success' }}
         run: |
           echo $PR_URL
           NEW_PR_NUMBER="${PR_URL##*/}"
