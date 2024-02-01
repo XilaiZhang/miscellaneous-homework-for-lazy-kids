@@ -19,7 +19,7 @@ jobs:
       - name: Get Release Channel
         run: |
           # echo "CHANNEL=$(echo ${{ github.event.label.name }} | cut -d ':' -f 2 | xargs)" >> $GITHUB_ENV
-          echo "CHANNEL=stable" >> $GITHUB_ENV
+          echo "CHANNEL=beta" >> $GITHUB_ENV
       - name: Get Release Candidate Branch
         run: |
           RELEASE_BRANCH=$(curl https://raw.githubusercontent.com/flutter/flutter/$CHANNEL/bin/internal/release-candidate-branch.version)
