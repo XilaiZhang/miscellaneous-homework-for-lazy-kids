@@ -73,9 +73,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
           PR_TITLE: 'some random title'
-      - name: Get output
+      - name: Leave Comment on CP success
         run: |
           echo $PR_URL
+          echo "NEW_PR_NUMBER=${PR_URL##*/}" >> $GITHUB_ENV
+          SUCCESS_MSG="Hello @${{ github.actor }}! Looks like you attached the cp label and successfully created a cherry pick pr.<br>"
+          SUCCESS_MSG+="Please fill in the information in PR description above, and a release engineer will review this request."
+          gh pr comment $NEW_PR_NUMBER -R flutter/flutter -b "${SUCCESS_MSG}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
       - name: Leave Comment on CP failure
         if: ${{ failure() && steps.attempt-cp.conclusion == 'failure' }}
         run: |
