@@ -54,7 +54,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
       - name: exception should comment
-        if: ${{ failure() && steps.create-pr.conclusion == 'failure' }}
+        if: ${{ failure() && steps.exception.conclusion == 'failure' }}
         run: |
           gh issue comment 9 -R XilaiZhang/miscellaneous-side-project -b "should comment"
         env:
