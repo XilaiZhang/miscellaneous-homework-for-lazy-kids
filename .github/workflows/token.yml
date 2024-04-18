@@ -40,7 +40,7 @@ jobs:
       - name: Intentional failure
         id: exception
         run: |
-          exit 1
+          git no this command
       - name: Test excpetion if success 1
         if: ${{ steps.create-pr.conclusion == 'success' }}
         run: |
