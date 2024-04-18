@@ -15,16 +15,47 @@ jobs:
           token: ${{ github.token }}
           path: flutter
       - name: Write some randome file
+        id: create-pr
         run: |
           cd flutter
           touch empty.json
-      - name: Create PR with plain token
-        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
-        with:
-          path: flutter
-          token: ${{ secrets.PAT }}
-          labels: |
-            cp: review
-          commit-message: blah
-          committer: GitHub <noreply@github.com>
-          title: 'github actions test'
+      - name: Comment on original PR with CP PR link
+        if: ${{ steps.create-pr.conclusion == 'success' }}
+        run: |
+          gh issue comment 9 -R XilaiZhang/miscellaneous-side-project -b "if statement one"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+      - name: Comment on original PR second IF
+        if: ${{ steps.create-pr.conclusion == 'success' }}
+        run: |
+          gh issue comment 9 -R XilaiZhang/miscellaneous-side-project -b "second if statement"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+      - name: Shouldn't Comment on original PR if fail
+        if: ${{ failure() && steps.create-pr.conclusion == 'failure' }}
+        run: |
+          gh issue comment 9 -R XilaiZhang/miscellaneous-side-project -b "NOT EXPECTED"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+      - name: Intentional failure
+        id: exception
+        run: |
+          exit 1
+      - name: Test excpetion if success 1
+        if: ${{ steps.create-pr.conclusion == 'success' }}
+        run: |
+          gh issue comment 9 -R XilaiZhang/miscellaneous-side-project -b "exception one"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+      - name:  Test excpetion if success 2
+        if: ${{ steps.create-pr.conclusion == 'success' }}
+        run: |
+          gh issue comment 9 -R XilaiZhang/miscellaneous-side-project -b "exception two"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+      - name: exception should comment
+        if: ${{ failure() && steps.create-pr.conclusion == 'failure' }}
+        run: |
+          gh issue comment 9 -R XilaiZhang/miscellaneous-side-project -b "should comment"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
